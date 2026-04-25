@@ -1,0 +1,3368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MANNA KITCHEN DOSA POINT — Authentic South Indian, Dehradun</title>
+<meta name="description" content="Stone-ground batter. Family recipes since 1962. Filter coffee all day. Pure vegetarian South Indian in Dehradun.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --color-teal-deep:    #006666;
+  --color-teal-mid:     #008080;
+  --color-teal-light:   #00b3b3;
+  --color-parchment:    #F4F7F7;
+  --color-ivory:        #FFFFFF;
+  --color-stone:        #6B757E;
+  --color-espresso:     #6E1A37;
+  --color-terracotta:   #AE2448;
+  --color-brass:        #C8922A;
+  --color-leaf:         #006666;
+  --color-mist:         #E8F0F0;
+  --color-shadow:       rgba(0,80,80,0.10);
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  --text-display-xl: clamp(3.5rem, 8vw, 7rem);
+  --text-display-lg: clamp(2.5rem, 5vw, 4.5rem);
+  --text-display-md: clamp(1.8rem, 3vw, 2.8rem);
+  --text-display-sm: clamp(1.3rem, 2vw, 1.8rem);
+  --text-body-lg:    1.125rem;
+  --text-body-md:    1rem;
+  --text-body-sm:    0.875rem;
+  --text-label:      0.75rem;
+
+  --leading-tight:  1.1;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+  --tracking-wide:  0.08em;
+  --tracking-tight: -0.02em;
+
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  2rem;
+  --space-xl:  3.5rem;
+  --space-2xl: 6rem;
+  --space-3xl: 10rem;
+
+  --grid-gutter:    clamp(1rem, 3vw, 2.5rem);
+  --grid-max-width: 1440px;
+  --grid-content:   1200px;
+
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-lg:   20px;
+  --radius-pill: 999px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 200ms;
+  --duration-mid:  400ms;
+  --duration-slow: 700ms;
+  --duration-cinematic: 1100ms;
+}
+
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+body {
+  font-family: var(--font-body);
+  background: var(--color-parchment);
+  color: var(--color-espresso);
+  line-height: var(--leading-normal);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { border: none; background: none; cursor: pointer; font: inherit; }
+ul { list-style: none; }
+
+.skip-link {
+  position: absolute; top: -100%; left: 1rem;
+  background: var(--color-teal-deep); color: var(--color-ivory);
+  padding: 0.5rem 1rem; border-radius: var(--radius-md);
+  font-size: var(--text-label); font-weight: 500; z-index: 9999;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ═══════════════════════════════════════════
+   SCROLL PROGRESS BAR
+═══════════════════════════════════════════ */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--color-brass); z-index: 1000; width: 0%;
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 20px var(--grid-gutter);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background var(--duration-mid) var(--ease-out-expo),
+              backdrop-filter var(--duration-mid) var(--ease-out-expo);
+}
+.nav.scrolled {
+  background: rgba(0,60,60,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-logo {
+  display: flex; flex-direction: column; align-items: flex-start;
+  font-family: var(--font-body); font-size: 0.95rem; font-style: normal;
+  font-weight: 700; color: var(--color-ivory);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  text-decoration: none; line-height: 1.2;
+}
+.nav-logo-sub {
+  display: block; font-size: 0.7rem; letter-spacing: 0.1em;
+  color: var(--color-brass); margin-top: 2px;
+  font-weight: 400; text-transform: uppercase;
+}
+.nav-links {
+  display: none; gap: 2.5rem; align-items: center;
+}
+@media (min-width: 1024px) { .nav-links { display: flex; } }
+.nav-link {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: rgba(250,247,242,0.75);
+  position: relative; padding-bottom: 3px;
+  transition: color var(--duration-fast);
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 1.5px;
+  background: var(--color-teal-light);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+.nav-link:hover, .nav-link.active { color: var(--color-ivory); }
+.nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+
+.nav-right { display: flex; align-items: center; gap: 1.25rem; }
+.btn-primary {
+  background: var(--color-teal-deep); color: var(--color-ivory);
+  border: none; padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  font-weight: 500;
+  transition: background var(--duration-fast) var(--ease-out-expo), transform 0.3s var(--ease-spring);
+  min-height: 44px; cursor: pointer;
+}
+.btn-primary:hover { background: var(--color-teal-mid); }
+.btn-secondary {
+  background: transparent; color: var(--color-ivory);
+  border: 1.5px solid rgba(250,247,242,0.5);
+  padding: 12px 28px; border-radius: var(--radius-pill);
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  font-weight: 500;
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+  min-height: 44px; cursor: pointer;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.08); border-color: var(--color-ivory); }
+.btn-magnetic { display: inline-block; }
+
+.hamburger {
+  display: flex; flex-direction: column; gap: 5px;
+  width: 44px; height: 44px; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+}
+@media (min-width: 1024px) { .hamburger { display: none; } }
+.hamburger span {
+  display: block; width: 24px; height: 1.5px;
+  background: var(--color-ivory); border-radius: 2px;
+  transition: transform 350ms var(--ease-out-expo), opacity 350ms;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile overlay */
+.mobile-overlay {
+  position: fixed; inset: 0; z-index: 99;
+  background: #003333;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: var(--space-xl);
+  transform: translateX(100%);
+  transition: transform var(--duration-mid) var(--ease-out-expo);
+}
+.mobile-overlay.open { transform: translateX(0); }
+.mobile-overlay nav { display: flex; flex-direction: column; align-items: center; gap: var(--space-lg); }
+.mobile-overlay .m-link {
+  font-family: var(--font-display); font-size: clamp(2.2rem, 7vw, 3.5rem);
+  font-style: italic; font-weight: 600; color: var(--color-ivory);
+  opacity: 0; transform: translateX(30px);
+  transition: color var(--duration-fast), opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
+}
+.mobile-overlay.open .m-link { opacity: 1; transform: translateX(0); }
+.mobile-overlay.open .m-link:nth-child(1) { transition-delay: 50ms; }
+.mobile-overlay.open .m-link:nth-child(2) { transition-delay: 100ms; }
+.mobile-overlay.open .m-link:nth-child(3) { transition-delay: 150ms; }
+.mobile-overlay.open .m-link:nth-child(4) { transition-delay: 200ms; }
+.mobile-overlay.open .m-link:nth-child(5) { transition-delay: 250ms; }
+.mobile-overlay.open .m-link:nth-child(6) { transition-delay: 300ms; }
+.mobile-overlay .m-link:hover { color: var(--color-brass); }
+.mobile-cta {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 400ms 350ms var(--ease-out-expo), transform 400ms 350ms var(--ease-out-expo);
+}
+.mobile-overlay.open .mobile-cta { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  position: relative; height: 100svh; min-height: 600px;
+  display: flex; align-items: center; overflow: hidden;
+}
+.hero-img {
+  position: absolute; inset: 0; z-index: 0;
+  background: var(--color-espresso);
+  will-change: transform;
+}
+.hero-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center;
+  transform-origin: center;
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to right, rgba(0,40,40,0.90) 45%, rgba(0,40,40,0.20) 100%);
+}
+@media (max-width: 768px) {
+  .hero-overlay {
+    background: linear-gradient(to top, rgba(0,40,40,0.94) 50%, rgba(0,40,40,0.45) 100%);
+  }
+}
+.hero-content {
+  position: relative; z-index: 2; width: 100%;
+  max-width: var(--grid-max-width); margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+  display: flex; align-items: flex-end;
+  height: 100%;
+  padding-bottom: clamp(3rem, 8vh, 7rem);
+}
+@media (min-width: 768px) {
+  .hero-content { align-items: center; padding-bottom: 0; }
+}
+.hero-text { max-width: 660px; }
+.hero-label {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-brass); margin-bottom: var(--space-md);
+  opacity: 0;
+}
+.hero-headline {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ivory);
+  margin-bottom: var(--space-lg);
+  overflow: hidden;
+}
+.hero-line { display: block; overflow: hidden; }
+.hero-line-inner {
+  display: block;
+  clip-path: inset(100% 0 0 0);
+  transform: translateY(20px);
+  opacity: 0;
+}
+.hero-sub {
+  font-size: var(--text-body-lg); color: var(--color-stone);
+  max-width: 420px; line-height: var(--leading-loose);
+  margin-bottom: var(--space-xl); opacity: 0;
+}
+.hero-ctas { display: flex; gap: var(--space-md); flex-wrap: wrap; opacity: 0; }
+@media (max-width: 480px) {
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas .btn-primary, .hero-ctas .btn-secondary { width: 100%; text-align: center; }
+}
+
+/* ═══════════════════════════════════════════
+   MARQUEE / TRUST STRIP
+═══════════════════════════════════════════ */
+.marquee-wrap {
+  background: var(--color-teal-deep);
+  overflow: hidden; padding: 14px 0;
+}
+.marquee-track { display: flex; width: max-content; }
+.marquee-inner {
+  display: flex; gap: 3rem; align-items: center;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+  padding-right: 3rem;
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee-item {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: rgba(250,247,242,0.85);
+}
+.marquee-sep { color: var(--color-brass); font-size: 0.75rem; }
+
+/* ═══════════════════════════════════════════
+   SECTION SHARED
+═══════════════════════════════════════════ */
+.section { padding: var(--space-2xl) var(--grid-gutter); }
+.section-inner { max-width: var(--grid-content); margin: 0 auto; }
+.section-label {
+  display: block; font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-brass); margin-bottom: var(--space-sm);
+}
+.section-heading {
+  font-family: var(--font-display); font-style: italic;
+  color: var(--color-espresso);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.section-heading-light { color: var(--color-ivory); }
+
+/* Underline SVG draw */
+.underline-wrap { position: relative; display: inline-block; }
+.underline-svg {
+  position: absolute; bottom: -6px; left: 0; right: 0;
+  width: 100%; height: 8px;
+}
+.underline-path {
+  stroke: var(--color-brass); stroke-width: 2;
+  fill: none; stroke-linecap: round;
+  stroke-dasharray: 1000; stroke-dashoffset: 1000;
+  transition: stroke-dashoffset var(--duration-slow) var(--ease-out-expo);
+}
+.underline-svg.drawn .underline-path { stroke-dashoffset: 0; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: none; }
+.reveal.visible {
+  animation: reveal-in var(--duration-slow) var(--ease-out-expo) forwards;
+}
+@keyframes reveal-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   SIGNATURE DISHES
+═══════════════════════════════════════════ */
+.dishes-section { background: var(--color-parchment); }
+.dishes-header { text-align: center; margin-bottom: var(--space-xl); }
+.dishes-header .section-heading { font-size: var(--text-display-md); }
+.dishes-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+@media (min-width: 768px) { .dishes-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.dish-card {
+  border-radius: var(--radius-lg); overflow: hidden;
+  background: var(--color-ivory);
+  box-shadow: 0 4px 24px var(--color-shadow);
+  cursor: pointer;
+  transition: transform var(--duration-mid) var(--ease-out-expo),
+              box-shadow var(--duration-mid) var(--ease-out-expo);
+}
+.dish-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px var(--color-shadow); }
+.dish-img-wrap {
+  height: clamp(220px, 30vw, 300px); overflow: hidden;
+}
+.dish-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform var(--duration-mid) var(--ease-out-expo);
+}
+.dish-card:hover .dish-img-wrap img { transform: scale(1.04); }
+.dish-body { padding: var(--space-lg); }
+.dish-tags { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-bottom: var(--space-sm); }
+.tag {
+  font-family: var(--font-body); font-size: 0.75rem;
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  padding: 3px 10px; border-radius: var(--radius-pill);
+  font-weight: 500;
+}
+.tag-bestseller { background: var(--color-terracotta); color: white; }
+.tag-chef       { background: var(--color-teal-deep);  color: white; }
+.tag-fresh      { background: var(--color-leaf);       color: white; }
+.tag-kids       { background: var(--color-brass);      color: white; }
+.tag-allday     { background: var(--color-espresso);   color: rgba(250,247,242,0.85); }
+.dish-name {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-sm); font-weight: 600;
+  color: var(--color-espresso); margin-bottom: var(--space-sm);
+  letter-spacing: var(--tracking-tight);
+}
+.dish-desc {
+  font-size: var(--text-body-sm); color: var(--color-stone);
+  line-height: var(--leading-loose);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  margin-bottom: var(--space-md);
+}
+.dish-footer { display: flex; align-items: center; justify-content: space-between; }
+.dish-price {
+  font-family: var(--font-body); font-size: 1.1rem; font-weight: 500;
+  color: var(--color-teal-deep);
+}
+.dish-link {
+  font-family: var(--font-body); font-size: var(--text-body-sm);
+  color: var(--color-teal-mid); font-weight: 500;
+  display: flex; align-items: center; gap: 4px;
+  transition: gap var(--duration-fast), color var(--duration-fast);
+}
+.dish-link:hover { color: var(--color-teal-deep); gap: 8px; }
+
+/* ═══════════════════════════════════════════
+   STORY TEASER
+═══════════════════════════════════════════ */
+.story-section { background: var(--color-parchment); padding: var(--space-3xl) var(--grid-gutter); }
+.story-inner {
+  max-width: var(--grid-content); margin: 0 auto;
+  display: grid; grid-template-columns: 1fr;
+  gap: var(--space-2xl); align-items: center;
+}
+@media (min-width: 768px) { .story-inner { grid-template-columns: 1fr 1fr; } }
+.story-text { display: flex; flex-direction: column; gap: var(--space-lg); }
+.story-text .section-heading { font-size: var(--text-display-md); }
+.story-body { font-size: var(--text-body-md); color: #3a4a4a; line-height: var(--leading-loose); }
+.story-pull {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.5rem;
+  color: var(--color-teal-deep); line-height: var(--leading-normal);
+  padding: var(--space-md) var(--space-lg);
+  background: color-mix(in oklch, var(--color-teal-deep) 6%, var(--color-parchment));
+  border-radius: var(--radius-md);
+}
+.story-cta {
+  font-family: var(--font-body); font-size: var(--text-body-sm);
+  color: var(--color-teal-mid); font-weight: 500; letter-spacing: 0.03em;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: gap var(--duration-fast);
+}
+.story-cta:hover { gap: 10px; color: var(--color-teal-deep); }
+.story-img-wrap {
+  border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: 0 8px 40px var(--color-shadow);
+  aspect-ratio: 4/5; position: relative;
+}
+.story-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ═══════════════════════════════════════════
+   MENU SECTION
+═══════════════════════════════════════════ */
+.menu-section { background: var(--color-ivory); }
+.menu-filters {
+  display: flex; gap: var(--space-sm); flex-wrap: wrap;
+  margin-bottom: var(--space-xl);
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding-bottom: var(--space-sm);
+}
+.menu-filters::-webkit-scrollbar { display: none; }
+.filter-pill {
+  background: var(--color-ivory); color: var(--color-espresso);
+  border: 1px solid var(--color-stone); border-radius: var(--radius-pill);
+  padding: 8px 18px; font-family: var(--font-body);
+  font-size: var(--text-label); letter-spacing: 0.04em;
+  white-space: nowrap; cursor: pointer; min-height: 44px;
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
+}
+.filter-pill:hover { border-color: var(--color-teal-mid); }
+.filter-pill.active {
+  background: var(--color-teal-deep); color: var(--color-ivory); border-color: var(--color-teal-deep);
+}
+
+.menu-category { display: none; }
+.menu-category.visible { display: block; }
+.cat-heading {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-sm); color: var(--color-espresso);
+  margin-bottom: var(--space-lg); margin-top: var(--space-xl);
+  letter-spacing: var(--tracking-tight);
+}
+.menu-category:first-child .cat-heading { margin-top: 0; }
+
+.menu-item {
+  display: flex; gap: var(--space-md); align-items: flex-start;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-mist);
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-thumb {
+  width: 80px; height: 80px; border-radius: var(--radius-md);
+  object-fit: cover; flex-shrink: 0;
+}
+.menu-thumb-placeholder {
+  width: 80px; height: 80px; border-radius: var(--radius-md);
+  background: var(--color-mist); flex-shrink: 0; display: none;
+}
+.menu-info { flex: 1; }
+.menu-name {
+  font-family: var(--font-body); font-size: var(--text-body-lg);
+  font-weight: 500; color: var(--color-espresso); margin-bottom: 3px;
+}
+.menu-desc { font-size: var(--text-body-sm); color: var(--color-stone); line-height: var(--leading-normal); margin-bottom: var(--space-sm); }
+.menu-tags { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-xs); }
+.menu-price {
+  font-family: var(--font-body); font-size: 1rem; font-weight: 500;
+  color: var(--color-teal-deep); margin-top: var(--space-xs);
+}
+
+/* ═══════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════ */
+.testimonials-section { background: var(--color-parchment); }
+.testimonials-header { text-align: center; margin-bottom: var(--space-xl); }
+.testimonials-grid {
+  display: flex; gap: var(--space-lg);
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding-bottom: var(--space-md);
+}
+.testimonials-grid::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) {
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); overflow-x: visible; }
+}
+.testimonial-card {
+  background: var(--color-ivory); border: 1px solid var(--color-mist);
+  border-radius: var(--radius-lg); padding: var(--space-xl) var(--space-lg);
+  min-width: 300px; scroll-snap-align: start; flex-shrink: 0;
+}
+@media (min-width: 1024px) { .testimonial-card { min-width: auto; } }
+.testimonial-quote-mark {
+  font-family: var(--font-display); font-size: 4rem; line-height: 0.8;
+  color: var(--color-brass); display: block; margin-bottom: var(--space-md);
+  font-style: italic; user-select: none;
+}
+.testimonial-text {
+  font-family: var(--font-body); font-size: var(--text-body-md);
+  color: var(--color-espresso); line-height: var(--leading-loose);
+  margin-bottom: var(--space-lg); font-style: italic;
+}
+.testimonial-author {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--color-stone);
+}
+
+/* ═══════════════════════════════════════════
+   GALLERY (MASONRY)
+═══════════════════════════════════════════ */
+.gallery-section { background: var(--color-ivory); }
+.gallery-filters { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-bottom: var(--space-xl); overflow-x: auto; scrollbar-width: none; }
+.gallery-filters::-webkit-scrollbar { display: none; }
+.gallery-grid {
+  columns: 3; gap: var(--space-md);
+  column-gap: var(--space-md);
+}
+@media (max-width: 768px) { .gallery-grid { columns: 2; } }
+@media (max-width: 480px) { .gallery-grid { columns: 1; } }
+.gallery-item {
+  break-inside: avoid; margin-bottom: var(--space-md);
+  border-radius: var(--radius-md); overflow: hidden;
+  position: relative; cursor: pointer; display: block;
+}
+.gallery-item img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover;
+  transition: transform var(--duration-mid) var(--ease-out-expo), filter var(--duration-mid);
+}
+.gallery-item:hover img { transform: scale(1.04); filter: brightness(0.85); }
+.gallery-item-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(28,16,8,0.75), transparent);
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity var(--duration-fast), transform var(--duration-fast);
+}
+.gallery-item:hover .gallery-item-overlay { opacity: 1; transform: translateY(0); }
+.gallery-caption {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1rem; color: var(--color-ivory);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity var(--duration-mid);
+  padding: var(--space-xl);
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox-img-wrap {
+  max-width: 90vw; max-height: 90vh; position: relative;
+  transform: scale(0.9); transition: transform var(--duration-mid) var(--ease-out-expo);
+}
+.lightbox.open .lightbox-img-wrap { transform: scale(1); }
+.lightbox-img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: var(--radius-md); }
+.lightbox-close {
+  position: absolute; top: -44px; right: 0;
+  color: rgba(250,247,242,0.8); font-size: 1.5rem; width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  transition: color var(--duration-fast);
+}
+.lightbox-close:hover { color: var(--color-ivory); }
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  color: var(--color-ivory); background: rgba(28,16,8,0.6);
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+  transition: background var(--duration-fast);
+}
+.lightbox-nav:hover { background: rgba(28,16,8,0.9); }
+.lightbox-prev { left: -56px; }
+.lightbox-next { right: -56px; }
+
+/* ═══════════════════════════════════════════
+   STORY / TIMELINE PAGE
+═══════════════════════════════════════════ */
+.brand-hero {
+  position: relative; height: 60vh; overflow: hidden;
+  display: flex; align-items: flex-end;
+}
+.brand-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.brand-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,40,40,0.88) 30%, rgba(0,40,40,0.22)); }
+.brand-hero-title {
+  position: relative; z-index: 1;
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-lg); color: var(--color-ivory);
+  letter-spacing: var(--tracking-tight); padding: var(--space-xl) var(--grid-gutter);
+  max-width: var(--grid-max-width); width: 100%; margin: 0 auto;
+  line-height: var(--leading-tight);
+}
+
+.narrative-section { background: var(--color-parchment); }
+.narrative-inner { max-width: 760px; margin: 0 auto; }
+.narrative-para { font-size: var(--text-body-lg); color: #2a4040; line-height: var(--leading-loose); margin-bottom: var(--space-lg); }
+
+.pull-quote-section {
+  background: #E8F4F4; padding: var(--space-2xl) var(--grid-gutter);
+  text-align: center;
+}
+.pull-quote {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--color-teal-deep); max-width: 720px; margin: 0 auto;
+  line-height: var(--leading-normal); letter-spacing: var(--tracking-tight);
+}
+.pull-quote-mark-large {
+  font-family: var(--font-display); font-size: 5rem; line-height: 0.7;
+  color: var(--color-brass); display: block; margin-bottom: var(--space-md);
+}
+
+.timeline-section { background: var(--color-parchment); padding: var(--space-2xl) var(--grid-gutter); }
+.timeline { max-width: 760px; margin: 0 auto; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 60px; top: 0; bottom: 0;
+  width: 1px; background: var(--color-teal-light); opacity: 0.3;
+}
+@media (max-width: 480px) { .timeline::before { left: 20px; } }
+.timeline-item { display: flex; gap: var(--space-lg); margin-bottom: var(--space-xl); align-items: flex-start; }
+.timeline-year {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-brass); font-weight: 500;
+  min-width: 48px; padding-top: 3px; position: relative;
+}
+.timeline-year::after {
+  content: ''; position: absolute; right: -22px; top: 6px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-brass); border: 2px solid var(--color-parchment);
+}
+.timeline-content { padding-left: var(--space-lg); }
+.timeline-text { font-size: var(--text-body-md); color: #2a4040; line-height: var(--leading-loose); }
+
+/* Values */
+.values-section { background: var(--color-ivory); padding: var(--space-2xl) var(--grid-gutter); }
+.values-inner { max-width: var(--grid-content); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
+@media (min-width: 768px) { .values-inner { grid-template-columns: repeat(3, 1fr); } }
+.value-block {}
+.value-num {
+  font-family: var(--font-display); font-size: 3.5rem; color: var(--color-brass);
+  opacity: 0.4; line-height: 1; margin-bottom: var(--space-md); font-style: italic;
+}
+.value-title {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-sm); color: var(--color-espresso);
+  margin-bottom: var(--space-md); letter-spacing: var(--tracking-tight);
+}
+.value-text { font-size: var(--text-body-md); color: #2a4040; line-height: var(--leading-loose); }
+
+/* ═══════════════════════════════════════════
+   RESERVATIONS
+═══════════════════════════════════════════ */
+.reserve-section {
+  background: linear-gradient(to right, rgba(14,25,34,0.95), rgba(14,25,34,0.85)),
+              url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.reserve-section .section-label { color: var(--color-teal-light); }
+.reserve-section .section-heading { color: #ffffff; }
+.reserve-section .form-input,
+.reserve-section .form-select,
+.reserve-section .form-textarea {
+  color: #ffffff;
+  border-bottom-color: rgba(255,255,255,0.3);
+}
+.reserve-section .form-input::placeholder { color: rgba(255,255,255,0.35); }
+.reserve-section .form-label { color: rgba(255,255,255,0.55); }
+.reserve-section .form-group:focus-within .form-label,
+.reserve-section .form-group.filled .form-label { color: var(--color-teal-light); }
+.reserve-section .stepper-label { color: rgba(255,255,255,0.55); }
+.reserve-section .stepper-val { color: #ffffff; }
+.reserve-section .stepper-btn { border-color: rgba(255,255,255,0.3); color: #ffffff; }
+.reserve-section .form-select option { color: #1a1a1a; background: #fff; }
+.reserve-inner {
+  max-width: var(--grid-content); margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; gap: var(--space-2xl);
+}
+@media (min-width: 768px) { .reserve-inner { grid-template-columns: 1.2fr 0.8fr; } }
+
+.form-group { position: relative; margin-bottom: var(--space-lg); }
+.form-input, .form-select, .form-textarea {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1px solid var(--color-stone);
+  border-radius: 0; padding: 22px 0 8px;
+  font-family: var(--font-body); font-size: var(--text-body-md);
+  color: var(--color-espresso); outline: none;
+  transition: border-color var(--duration-fast);
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-bottom-color: var(--color-teal-deep);
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-label {
+  position: absolute; top: 8px; left: 0;
+  font-family: var(--font-body); font-size: var(--text-body-sm);
+  color: var(--color-stone); font-weight: 400;
+  transition: top var(--duration-fast) var(--ease-out-expo),
+              font-size var(--duration-fast) var(--ease-out-expo),
+              color var(--duration-fast);
+  pointer-events: none;
+}
+.form-group:focus-within .form-label,
+.form-group.filled .form-label {
+  top: 0; font-size: 0.75rem; color: var(--color-teal-deep);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+}
+.form-underline {
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 1.5px;
+  background: var(--color-teal-deep);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--duration-mid) var(--ease-out-expo);
+}
+.form-group:focus-within .form-underline { transform: scaleX(1); }
+
+.stepper-wrap { display: flex; align-items: center; gap: var(--space-md); padding-top: 20px; }
+.stepper-btn {
+  width: 32px; height: 32px; border: 1px solid var(--color-stone);
+  border-radius: 50%; background: transparent; color: var(--color-espresso);
+  font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: border-color var(--duration-fast), background var(--duration-fast);
+}
+.stepper-btn:hover { border-color: var(--color-teal-deep); background: var(--color-teal-deep); color: white; }
+.stepper-val {
+  font-family: var(--font-display); font-size: 1.4rem; font-weight: 600;
+  min-width: 2.5ch; text-align: center; color: var(--color-espresso);
+}
+.stepper-label {
+  font-family: var(--font-body); font-size: 0.75rem;
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-stone); margin-bottom: 4px;
+}
+
+.btn-submit {
+  width: 100%; background: var(--color-teal-deep); color: var(--color-ivory);
+  border: none; padding: 16px 32px; border-radius: var(--radius-pill);
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase; font-weight: 500;
+  cursor: pointer; margin-top: var(--space-lg); min-height: 52px;
+  transition: background var(--duration-fast), transform 0.3s var(--ease-spring);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-submit:hover:not(:disabled) { background: var(--color-teal-mid); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Success state */
+.form-success {
+  display: none; text-align: center; padding: var(--space-2xl) var(--space-lg);
+}
+.form-success.show { display: block; }
+.success-check {
+  width: 64px; height: 64px; margin: 0 auto var(--space-lg);
+}
+.check-circle {
+  stroke: var(--color-teal-deep); stroke-width: 2;
+  stroke-dasharray: 166; stroke-dashoffset: 166; fill: none;
+  animation: draw-check 0.6s var(--ease-out-expo) forwards;
+}
+.check-tick {
+  stroke: var(--color-teal-deep); stroke-width: 2;
+  stroke-dasharray: 100; stroke-dashoffset: 100; fill: none; stroke-linecap: round;
+  animation: draw-check 0.4s 0.5s var(--ease-out-expo) forwards;
+}
+@keyframes draw-check { to { stroke-dashoffset: 0; } }
+.success-title {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-sm); color: var(--color-espresso); margin-bottom: var(--space-md);
+}
+.success-sub { font-size: var(--text-body-md); color: var(--color-stone); margin-bottom: var(--space-xl); }
+
+.reserve-info-card {
+  background: #003333; border-radius: var(--radius-lg);
+  padding: var(--space-xl); color: var(--color-ivory);
+  position: sticky; top: 100px;
+}
+.reserve-info-title {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-sm); color: var(--color-ivory);
+  margin-bottom: var(--space-xl); letter-spacing: var(--tracking-tight);
+}
+.reserve-info-img {
+  border-radius: var(--radius-md); overflow: hidden;
+  margin-bottom: var(--space-xl); aspect-ratio: 16/9;
+}
+.reserve-info-img img { width: 100%; height: 100%; object-fit: cover; }
+.info-row {
+  display: flex; gap: var(--space-md); margin-bottom: var(--space-md); align-items: flex-start;
+}
+.info-row-icon { font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+.info-row-text { font-size: var(--text-body-sm); color: rgba(250,247,242,0.75); line-height: var(--leading-loose); }
+.info-row-label {
+  font-size: var(--text-label); letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-brass); margin-bottom: 3px; display: block;
+}
+
+/* ═══════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════ */
+.contact-section { background: var(--color-parchment); }
+.contact-inner {
+  max-width: var(--grid-content); margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; gap: var(--space-2xl);
+}
+@media (min-width: 768px) { .contact-inner { grid-template-columns: 1fr 1fr; } }
+.contact-map {
+  border-radius: var(--radius-lg); overflow: hidden;
+  aspect-ratio: 4/3; background: var(--color-mist);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.contact-map iframe {
+  width: 100%; height: 100%; border: none;
+  filter: grayscale(40%) sepia(10%);
+}
+.contact-map-placeholder {
+  width: 100%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: var(--space-md);
+  color: var(--color-stone); background: var(--color-mist);
+}
+.contact-map-icon { font-size: 3rem; }
+.contact-map-label { font-size: var(--text-body-sm); text-align: center; }
+.contact-detail { display: flex; flex-direction: column; gap: var(--space-lg); }
+.contact-item { display: flex; flex-direction: column; gap: 4px; }
+.contact-item-label {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--color-brass);
+}
+.contact-item-val {
+  font-size: var(--text-body-md); color: var(--color-espresso); line-height: var(--leading-loose);
+}
+.contact-item-val a { color: var(--color-teal-mid); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ═══════════════════════════════════════════
+   FINAL CTA BLOCK
+═══════════════════════════════════════════ */
+.cta-block {
+  background: #003333;
+  padding: var(--space-3xl) var(--grid-gutter);
+  text-align: center;
+}
+.cta-sub {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-brass); margin-bottom: var(--space-md);
+}
+.cta-heading {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-display-md); color: var(--color-ivory);
+  margin-bottom: var(--space-md); letter-spacing: var(--tracking-tight);
+}
+.cta-desc {
+  font-size: var(--text-body-md); color: rgba(250,247,242,0.6);
+  margin-bottom: var(--space-xl); max-width: 480px; margin-left: auto; margin-right: auto;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background-color: #003333;
+  background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border-top: 1px solid var(--color-brass);
+  padding: var(--space-2xl) var(--grid-gutter) var(--space-lg);
+}
+.footer-inner {
+  max-width: var(--grid-content); margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; gap: var(--space-xl);
+}
+@media (min-width: 768px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr; } }
+.footer-brand { display: flex; flex-direction: column; gap: var(--space-md); }
+.footer-logo {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.5rem; font-weight: 600; color: var(--color-ivory);
+  letter-spacing: var(--tracking-tight);
+}
+.footer-blurb { font-size: var(--text-body-sm); color: var(--color-ivory); line-height: var(--leading-loose); max-width: 320px; opacity: 0.85; }
+.footer-socials { display: flex; gap: var(--space-md); margin-top: var(--space-sm); }
+.footer-social {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; color: var(--color-ivory);
+  transition: border-color var(--duration-fast), color var(--duration-fast);
+}
+.footer-social:hover { border-color: var(--color-brass); color: var(--color-brass); }
+.footer-col-heading {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-ivory); margin-bottom: var(--space-md); opacity: 0.7;
+}
+.footer-links { display: flex; flex-direction: column; gap: var(--space-sm); }
+.footer-link {
+  font-size: var(--text-body-sm); color: var(--color-ivory);
+  transition: color var(--duration-fast); opacity: 0.8;
+}
+.footer-link:hover { color: var(--color-teal-light); opacity: 1; }
+.footer-address { font-size: var(--text-body-sm); color: var(--color-ivory); line-height: var(--leading-loose); opacity: 0.8; }
+.footer-bottom {
+  max-width: var(--grid-content); margin: var(--space-xl) auto 0;
+  padding-top: var(--space-lg); border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: var(--text-label); color: var(--color-ivory); opacity: 0.6;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE NAV (section tabs)
+═══════════════════════════════════════════ */
+.page-tabs {
+  background: var(--color-ivory);
+  border-bottom: 1px solid var(--color-mist);
+  position: sticky; top: 0; z-index: 50;
+  overflow-x: auto; scrollbar-width: none;
+}
+.page-tabs::-webkit-scrollbar { display: none; }
+.page-tabs-inner {
+  max-width: var(--grid-content); margin: 0 auto;
+  display: flex; padding: 0 var(--grid-gutter);
+}
+.page-tab {
+  font-family: var(--font-body); font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-stone); padding: 16px var(--space-lg);
+  border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;
+  transition: color var(--duration-fast), border-color var(--duration-fast);
+  min-height: 48px;
+}
+.page-tab:hover { color: var(--color-espresso); }
+.page-tab.active { color: var(--color-teal-deep); border-bottom-color: var(--color-teal-deep); }
+
+/* Page panels */
+.page-panel { display: none; }
+.page-panel.active { display: block; }
+.page-panel.fade-out {
+  opacity: 0; transform: translateY(-8px);
+  transition: opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
+  pointer-events: none;
+}
+.page-panel.fade-in {
+  animation: panelFadeIn 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+═══════════════════════════════════════════ */
+@media (min-width: 1024px) {
+  .menu-layout {
+    display: grid !important;
+    grid-template-columns: 220px 1fr !important;
+    gap: var(--space-2xl) !important;
+    align-items: start !important;
+  }
+  .menu-filters {
+    display: flex !important;
+    flex-direction: column !important;
+    position: sticky !important;
+    top: 100px !important;
+    overflow-x: visible;
+    flex-wrap: nowrap;
+    gap: 4px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-right: 1px solid var(--color-mist);
+    padding-right: var(--space-md);
+  }
+  .menu-filters .filter-pill {
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid transparent;
+    border-radius: var(--radius-sm);
+  }
+  .menu-categories-wrap { min-width: 0; }
+}
+
+/* Confetti */
+.confetti-container { position: fixed; inset: 0; pointer-events: none; z-index: 9997; }
+.c-piece {
+  position: absolute; width: 8px; height: 5px; border-radius: 2px;
+  animation: c-fall 3s ease-in forwards;
+}
+@keyframes c-fall {
+  0% { transform: translateY(-80px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   FORM ERROR STATES (FIX 9)
+═══════════════════════════════════════════ */
+.form-error {
+  color: var(--color-terracotta);
+  font-size: 0.75rem;
+  margin-top: 4px;
+  display: block;
+}
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+  border-bottom-color: var(--color-terracotta);
+}
+
+/* ═══════════════════════════════════════════
+   DARK MODE (FIX 3)
+═══════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-parchment: #141414;
+    --color-ivory:     #1e1e1e;
+    --color-espresso:  #e8ddd4;
+    --color-stone:     #9a9a9a;
+    --color-mist:      #2a2a2a;
+  }
+}
+[data-theme="dark"] {
+  --color-parchment: #141414;
+  --color-ivory:     #1e1e1e;
+  --color-espresso:  #e8ddd4;
+  --color-stone:     #9a9a9a;
+  --color-mist:      #2a2a2a;
+}
+.dark-toggle {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-ivory); background: transparent;
+  cursor: pointer; font-size: 1.1rem;
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+  flex-shrink: 0;
+}
+.dark-toggle:hover { border-color: var(--color-brass); background: rgba(255,255,255,0.06); }
+
+/* ═══════════════════════════════════════════
+   FEATURE 1 — WhatsApp FAB
+═══════════════════════════════════════════ */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 9990;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+  transition: transform 200ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 200ms ease;
+  text-decoration: none;
+}
+.whatsapp-fab:hover {
+  transform: scale(1.12);
+  box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+}
+.whatsapp-fab-pulse {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(37,211,102,0.4);
+  animation: wa-pulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes wa-pulse {
+  0%   { transform: scale(1);   opacity: 0.75; }
+  70%  { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+@media (max-width: 767px) {
+  .whatsapp-fab { bottom: 80px; right: 16px; width: 52px; height: 52px; }
+  .whatsapp-fab-pulse { width: 52px; height: 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-fab-pulse { animation: none; }
+}
+
+/* ═══════════════════════════════════════════
+   FEATURE 2 — Menu Search Bar
+═══════════════════════════════════════════ */
+.menu-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  background: var(--color-parchment);
+  border: 1px solid var(--color-stone);
+  border-radius: var(--radius-pill);
+  padding: 0 var(--space-md);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.menu-search-wrap:focus-within {
+  border-color: var(--color-teal-mid);
+  box-shadow: 0 0 0 3px rgba(0,128,128,0.12);
+}
+.menu-search-icon { color: var(--color-stone); flex-shrink: 0; }
+.menu-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  color: var(--color-espresso);
+  outline: none;
+  min-height: 44px;
+}
+.menu-search-input::placeholder { color: var(--color-stone); }
+.menu-search-clear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-stone);
+  font-size: 0.85rem;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color 150ms ease;
+}
+.menu-search-clear:hover { color: var(--color-espresso); }
+.menu-item.search-hidden { display: none !important; }
+.menu-search-empty {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--color-stone);
+  font-size: var(--text-body-sm);
+  display: none;
+}
+.menu-search-empty.visible { display: block; }
+
+/* ═══════════════════════════════════════════
+   FEATURE 3 — Stats Counter Section
+═══════════════════════════════════════════ */
+.stats-section {
+  background: var(--color-teal-deep);
+  padding: var(--space-2xl) var(--grid-gutter);
+}
+.stats-inner {
+  max-width: var(--grid-content);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  gap: 0;
+}
+@media (max-width: 767px) {
+  .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl) 0;
+  }
+  .stat-divider { display: none; }
+}
+.stat-item {
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+}
+.stat-number {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-ivory);
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.02em;
+}
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  display: block;
+}
+.stat-divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(255,255,255,0.2);
+  justify-self: center;
+}
+
+/* ═══════════════════════════════════════════
+   FEATURE 7 — Booking Summary Card
+═══════════════════════════════════════════ */
+.success-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  animation: successPop 500ms cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes successPop {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.booking-summary {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  width: 100%;
+  max-width: 380px;
+  font-size: var(--text-body-sm);
+  color: rgba(255,255,255,0.85);
+  line-height: 2;
+  text-align: left;
+}
+.success-note {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.03em;
+}
+
+/* ═══════════════════════════════════════════
+   FEATURE 11 — Sticky Mobile Bottom CTA Bar
+═══════════════════════════════════════════ */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 9980;
+  background: var(--color-teal-deep);
+  height: 64px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+}
+@media (max-width: 767px) {
+  .mobile-bottom-bar { display: flex; align-items: stretch; }
+  body { padding-bottom: 64px; }
+}
+.mobile-bottom-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--color-ivory);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-bottom-btn:active {
+  background: rgba(255,255,255,0.1);
+}
+.mobile-bottom-divider {
+  width: 1px;
+  background: rgba(255,255,255,0.2);
+  margin: 12px 0;
+}
+@media (max-width: 767px) {
+  .whatsapp-fab { bottom: 80px; }
+}
+
+/* ═══════════════════════════════════════════
+   FEATURE A — Live Open/Closed Badge
+═══════════════════════════════════════════ */
+.open-badge { display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:var(--radius-pill); border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); cursor:default; user-select:none; transition:background 300ms ease, border-color 300ms ease; }
+.open-badge-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; transition:background 300ms ease; }
+.open-badge-text { font-family:var(--font-body); font-size:0.75rem; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; color:var(--color-ivory); white-space:nowrap; transition:color 300ms ease; }
+.open-badge.is-open { border-color:rgba(37,211,102,0.35); background:rgba(37,211,102,0.10); }
+.open-badge.is-open .open-badge-dot { background:#25D366; box-shadow:0 0 0 0 rgba(37,211,102,0.6); animation:badge-pulse 2.5s ease-out infinite; }
+.open-badge.is-open .open-badge-text { color:#25D366; }
+.open-badge.is-closed { border-color:rgba(174,36,72,0.35); background:rgba(174,36,72,0.10); }
+.open-badge.is-closed .open-badge-dot { background:#AE2448; animation:none; }
+.open-badge.is-closed .open-badge-text { color:#ff6b8a; }
+@keyframes badge-pulse { 0%{box-shadow:0 0 0 0 rgba(37,211,102,0.6)} 60%{box-shadow:0 0 0 8px rgba(37,211,102,0)} 100%{box-shadow:0 0 0 0 rgba(37,211,102,0)} }
+@media (max-width:380px) { .open-badge-text { display:none; } .open-badge { padding:8px; } }
+@media (prefers-reduced-motion:reduce) { .open-badge-dot { animation:none !important; } }
+
+/* ═══════════════════════════════════════════
+   FEATURE B — Custom Calendar
+═══════════════════════════════════════════ */
+.custom-calendar {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 500;
+  background: #003333;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  width: 320px;
+  padding: var(--space-md);
+  animation: calPop 250ms cubic-bezier(0.34,1.56,0.64,1) forwards;
+  overflow: hidden;
+}
+@keyframes calPop {
+  from { opacity:0; transform:translateY(-8px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+#fg-date { position: relative; }
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding: 0 var(--space-xs);
+}
+.cal-month-year {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-ivory);
+  letter-spacing: -0.01em;
+}
+.cal-nav {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--color-ivory);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+.cal-nav:hover { background: rgba(255,255,255,0.1); border-color: var(--color-teal-light); }
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: var(--space-sm);
+}
+.cal-weekdays span {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  padding: var(--space-xs) 0;
+}
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background 150ms ease, color 150ms ease, transform 150ms ease;
+  min-width: 36px; min-height: 36px;
+}
+.cal-day:hover:not(.cal-day-disabled):not(.cal-day-selected) {
+  background: rgba(0,179,179,0.2);
+  color: var(--color-ivory);
+  transform: scale(1.1);
+}
+.cal-day-today {
+  border: 1.5px solid var(--color-teal-light);
+  color: var(--color-teal-light);
+  font-weight: 600;
+}
+.cal-day-selected {
+  background: var(--color-teal-deep);
+  color: #ffffff;
+  font-weight: 700;
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(0,102,102,0.5);
+}
+.cal-day-disabled {
+  color: rgba(255,255,255,0.2);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.cal-day-empty { background: transparent; cursor: default; pointer-events: none; }
+.cal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.cal-today-btn, .cal-close-btn {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 150ms ease;
+  min-height: 36px;
+}
+.cal-today-btn {
+  background: rgba(0,179,179,0.15);
+  border: 1px solid rgba(0,179,179,0.3);
+  color: var(--color-teal-light);
+}
+.cal-today-btn:hover { background: rgba(0,179,179,0.25); }
+.cal-close-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.6);
+}
+.cal-close-btn:hover { background: rgba(255,255,255,0.12); }
+@media (max-width: 360px) { .custom-calendar { width: 290px; } .cal-day { min-width: 30px; min-height: 30px; font-size: 0.78rem; } }
+
+/* ═══════════════════════════════════════════
+   FEATURE C — Custom Clock Picker
+═══════════════════════════════════════════ */
+.custom-clock {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 500;
+  background: #003333;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  width: 300px;
+  padding: var(--space-md);
+  animation: calPop 250ms cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+#fg-time { position: relative; }
+.clock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+.clock-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-ivory);
+}
+.clock-ampm {
+  display: flex;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.ampm-btn {
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+  min-height: 32px;
+}
+.ampm-btn.active {
+  background: var(--color-teal-deep);
+  color: #ffffff;
+}
+.clock-face-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+}
+.clock-face { display: block; margin: 0 auto; }
+.clock-center-display {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.clock-display-time {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-ivory);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.clock-display-period {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-teal-light);
+  margin-top: 3px;
+}
+.clock-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-teal-deep) transparent;
+  margin-bottom: var(--space-md);
+  padding: 2px;
+}
+.clock-slot {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  min-height: 36px;
+}
+.clock-slot:hover {
+  background: rgba(0,179,179,0.2);
+  border-color: rgba(0,179,179,0.4);
+  color: var(--color-ivory);
+  transform: scale(1.04);
+}
+.clock-slot.selected {
+  background: var(--color-teal-deep);
+  border-color: var(--color-teal-light);
+  color: #ffffff;
+  font-weight: 700;
+  transform: scale(1.04);
+}
+.clock-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+@media (max-width: 360px) { .custom-clock { width: 270px; } }
+
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="progress-bar" id="progress"></div>
+<div class="confetti-container" id="confetti"></div>
+
+<!-- MOBILE OVERLAY -->
+<div class="mobile-overlay" id="mobileOverlay" role="dialog" aria-modal="true" aria-label="Navigation">
+  <nav>
+    <a class="m-link" href="#home" onclick="showPage('home');closeMobile()">Home</a>
+    <a class="m-link" href="#menu" onclick="showPage('menu');closeMobile()">Menu</a>
+    <a class="m-link" href="#story" onclick="showPage('story');closeMobile()">Our Story</a>
+    <a class="m-link" href="#gallery" onclick="showPage('gallery');closeMobile()">Gallery</a>
+    <a class="m-link" href="#reserve" onclick="showPage('reserve');closeMobile()">Reservations</a>
+    <a class="m-link" href="#contact" onclick="showPage('contact');closeMobile()">Contact</a>
+  </nav>
+  <div class="mobile-cta">
+    <button class="btn-primary" onclick="showPage('reserve');closeMobile()">Reserve a Table</button>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="mainNav">
+  <a href="#home" class="nav-logo" onclick="showPage('home')">>
+    MANNA KITCHEN DOSA POINT
+    <span class="nav-logo-sub">Pure Vegetarian · Since 1962</span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="#home" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a></li>
+    <li><a href="#menu" class="nav-link" data-page="menu" onclick="showPage('menu')">Menu</a></li>
+    <li><a href="#story" class="nav-link" data-page="story" onclick="showPage('story')">Our Story</a></li>
+    <li><a href="#gallery" class="nav-link" data-page="gallery" onclick="showPage('gallery')">Gallery</a></li>
+    <li><a href="#reserve" class="nav-link" data-page="reserve" onclick="showPage('reserve')">Reservations</a></li>
+    <li><a href="#contact" class="nav-link" data-page="contact" onclick="showPage('contact')">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="open-badge" id="openBadge" aria-live="polite" aria-label="Restaurant status">
+      <span class="open-badge-dot" id="openBadgeDot"></span>
+      <span class="open-badge-text" id="openBadgeText">Open Now</span>
+    </div>
+    <button class="btn-primary btn-magnetic" onclick="showPage('reserve')" style="display:none" id="navCta">Reserve a Table</button>
+    <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode" onclick="toggleDark()">
+      <span id="darkIcon">🌙</span>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div class="page-panel active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-img" id="heroImg">
+      <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=1920&q=80"
+           alt="Crispy masala dosa on a traditional South Indian plate with sambar and chutneys"
+           loading="eager" fetchpriority="high" width="1920" height="1080">
+    </div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <p class="hero-label" id="heroLabel">Pure Vegetarian · Since 1962</p>
+        <h1 class="hero-headline" id="heroHeadline">
+          <span class="hero-line"><span class="hero-line-inner" id="hl1">Where Every Dosa</span></span>
+          <span class="hero-line"><span class="hero-line-inner" id="hl2">Tells a Story</span></span>
+        </h1>
+        <p class="hero-sub" id="heroSub">Stone-ground batter. Family recipes. Filter coffee all day.</p>
+        <div class="hero-ctas" id="heroCtas">
+          <button class="btn-primary btn-magnetic" onclick="showPage('menu')">View Menu</button>
+          <button class="btn-secondary btn-magnetic" onclick="showPage('reserve')">Reserve a Table</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap" aria-label="Our promises">
+    <div class="marquee-track">
+      <div class="marquee-inner" aria-hidden="true">
+        <span class="marquee-item">Pure Vegetarian</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Stone-Ground Batter Daily</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">No Preservatives</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Family Recipes Since 1962</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Filter Coffee All Day</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Made Fresh Every Morning</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Served With Love From Chennai</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Pure Vegetarian</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Stone-Ground Batter Daily</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">No Preservatives</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Family Recipes Since 1962</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Filter Coffee All Day</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Made Fresh Every Morning</span><span class="marquee-sep">✦</span>
+        <span class="marquee-item">Served With Love From Chennai</span><span class="marquee-sep">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE DISHES -->
+  <section class="section dishes-section" aria-labelledby="dishesHeading">
+    <div class="section-inner">
+      <div class="dishes-header reveal">
+        <span class="section-label">Signature Dishes</span>
+        <h2 class="section-heading" id="dishesHeading" style="font-size:var(--text-display-md)">
+          <span class="underline-wrap">
+            Our Most Loved Dishes
+            <svg class="underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none" aria-hidden="true">
+              <path class="underline-path" d="M0 5 Q75 1 150 5 Q225 9 300 5"/>
+            </svg>
+          </span>
+        </h2>
+      </div>
+      <div class="dishes-grid">
+        <div class="dish-card reveal" style="transition-delay:0ms">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=800&q=80"
+                 alt="Crispy golden masala dosa" loading="lazy" width="800" height="480">
+          </div>
+          <div class="dish-body">
+            <div class="dish-tags">
+              <span class="tag tag-bestseller">Bestseller</span>
+            </div>
+            <div class="dish-name">Masala Dosa</div>
+            <p class="dish-desc">Crispy golden crepe filled with spiced potato, served with sambar and three chutneys.</p>
+            <div class="dish-footer">
+              <span class="dish-price">₹149</span>
+              <a href="#" class="dish-link" onclick="showPage('menu')">See in Menu →</a>
+            </div>
+          </div>
+        </div>
+        <div class="dish-card reveal" style="transition-delay:80ms">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80"
+                 alt="Fluffy idli with sambar" loading="lazy" width="800" height="480">
+          </div>
+          <div class="dish-body">
+            <div class="dish-tags">
+              <span class="tag tag-chef">Chef's Favourite</span>
+            </div>
+            <div class="dish-name">Idli Sambhar</div>
+            <p class="dish-desc">Fluffy steamed rice cakes with slow-cooked lentil sambhar. A South Indian morning ritual.</p>
+            <div class="dish-footer">
+              <span class="dish-price">₹99</span>
+              <a href="#" class="dish-link" onclick="showPage('menu')">See in Menu →</a>
+            </div>
+          </div>
+        </div>
+        <div class="dish-card reveal" style="transition-delay:160ms">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1581481615985-ba4775734a9b?auto=format&fit=crop&w=800&q=80"
+                 alt="Filter coffee in traditional davara set" loading="lazy" width="800" height="480">
+          </div>
+          <div class="dish-body">
+            <div class="dish-tags">
+              <span class="tag tag-allday">All Day</span>
+            </div>
+            <div class="dish-name">Filter Coffee</div>
+            <p class="dish-desc">Freshly brewed decoction in a traditional davara set. Strong, aromatic, and comforting.</p>
+            <div class="dish-footer">
+              <span class="dish-price">₹59</span>
+              <a href="#" class="dish-link" onclick="showPage('menu')">See in Menu →</a>
+            </div>
+          </div>
+        </div>
+        <div class="dish-card reveal" style="transition-delay:240ms">
+          <div class="dish-img-wrap">
+            <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80"
+                 alt="Rava uttapam with toppings" loading="lazy" width="800" height="480">
+          </div>
+          <div class="dish-body">
+            <div class="dish-tags">
+              <span class="tag tag-chef">Chef Special</span>
+            </div>
+            <div class="dish-name">Rava Uttapam</div>
+            <p class="dish-desc">Thick semolina pancake with caramelised onion and tomato. Served sizzling.</p>
+            <div class="dish-footer">
+              <span class="dish-price">₹129</span>
+              <a href="#" class="dish-link" onclick="showPage('menu')">See in Menu →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY TEASER -->
+  <section class="story-section" aria-labelledby="storyHeading">
+    <div class="story-inner">
+      <div class="story-text reveal">
+        <span class="section-label">Our Heritage</span>
+        <h2 class="section-heading" id="storyHeading">A Recipe Passed Down, Never Written Down</h2>
+        <p class="story-body">In a small Chennai kitchen in 1962, Kamala Iyer ground the first batch of batter on a granite stone. No measurements. No timer. Just intuition passed from her mother's hands to hers. That batter still ferments overnight, every night, right here in Dehradun.</p>
+        <blockquote class="story-pull">"The batter ferments overnight. The love ferments for decades."</blockquote>
+        <a href="#" class="story-cta" onclick="showPage('story')">Read Our Full Story →</a>
+      </div>
+      <div class="story-img-wrap reveal" style="transition-delay:100ms">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80"
+             alt="Warm South Indian restaurant interior" loading="lazy" width="700" height="875">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STATS COUNTER -->
+  <section class="stats-section" aria-label="Restaurant milestones">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="62" data-suffix="+">0</span>
+        <span class="stat-label">Years of Family Recipes</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="12000" data-suffix="+" data-prefix="">0</span>
+        <span class="stat-label">Dosas Served Monthly</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="4.8" data-suffix="★" data-decimals="1">0</span>
+        <span class="stat-label">Average Guest Rating</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="3" data-suffix=" Generations">0</span>
+        <span class="stat-label">Of the Iyer Family</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testimonials-section" aria-labelledby="reviewsHeading">
+    <div class="section-inner">
+      <div class="testimonials-header reveal">
+        <span class="section-label">Guest Reviews</span>
+        <h2 class="section-heading" id="reviewsHeading" style="font-size:var(--text-display-md)">What Our Guests Say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal" style="transition-delay:0ms">
+          <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+          <div style="color:#FFD700;font-size:1.2rem;margin-bottom:12px;letter-spacing:2px;">★★★★★</div>
+          <p class="testimonial-text">The masala dosa here is the closest I've come to what my Chennai grandmother made. Nothing synthetic, nothing fake.</p>
+          <div class="testimonial-author">Priya R. · Bangalore</div>
+        </article>
+        <article class="testimonial-card reveal" style="transition-delay:80ms">
+          <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+          <div style="color:#FFD700;font-size:1.2rem;margin-bottom:12px;letter-spacing:2px;">★★★★★</div>
+          <p class="testimonial-text">Filter coffee at 8am. Idli so soft it melts before you even chew. This is the only breakfast I need in Dehradun. I've brought every visitor here within 24 hours of their arrival.</p>
+          <div class="testimonial-author">Arjun M. · Delhi</div>
+        </article>
+        <article class="testimonial-card reveal" style="transition-delay:160ms">
+          <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+          <div style="color:#FFD700;font-size:1.2rem;margin-bottom:12px;letter-spacing:2px;">★★★★★</div>
+          <p class="testimonial-text">We've tried every South Indian spot in Uttarakhand. MANNA KITCHEN isn't a restaurant — it's a ritual. We've been coming every Sunday for two years. The staff know our order before we sit down.</p>
+          <div class="testimonial-author">Meera K. · Lucknow</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <div class="cta-block" aria-label="Book a table">
+    <div class="reveal">
+      <p class="cta-sub">Ready for the real thing?</p>
+      <h2 class="cta-heading">Reserve Your Table</h2>
+      <p class="cta-desc">Open every day from 9:15 AM to 10:00 PM. Walk-ins welcome.</p>
+      <button class="btn-primary btn-magnetic" onclick="showPage('reserve')" style="display:inline-flex;min-height:52px;padding:16px 40px;font-size:0.8rem">Book a Table Now</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ MENU PAGE ═══════════ -->
+<div class="page-panel" id="page-menu">
+  <div class="brand-hero" style="height:40vh">
+    <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=1920&q=80" alt="Masala dosa spread" loading="lazy" width="1920" height="600">
+    <div class="brand-hero-overlay"></div>
+    <div class="brand-hero-title">Our Menu</div>
+  </div>
+  <section class="section menu-section">
+    <div class="section-inner">
+      <div class="menu-layout">
+        <div class="menu-search-wrap">
+          <svg class="menu-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="search" id="menuSearch" class="menu-search-input" placeholder="Search dishes…" aria-label="Search menu items" autocomplete="off">
+          <button class="menu-search-clear" id="menuSearchClear" aria-label="Clear search" style="display:none">✕</button>
+        </div>
+        <div class="menu-filters" role="group" aria-label="Filter menu by category">
+          <button class="filter-pill active" onclick="filterMenu('all',this)">All Items</button>
+          <button class="filter-pill" onclick="filterMenu('dosas',this)">Dosas</button>
+          <button class="filter-pill" onclick="filterMenu('idli',this)">Idli &amp; Vada</button>
+          <button class="filter-pill" onclick="filterMenu('uttapam',this)">Uttapam / Tiffin</button>
+          <button class="filter-pill" onclick="filterMenu('accompaniments',this)">Accompaniments</button>
+          <button class="filter-pill" onclick="filterMenu('beverages',this)">Beverages</button>
+          <button class="filter-pill" onclick="filterMenu('combos',this)">Combos</button>
+        </div>
+        <div class="menu-categories-wrap">
+          <div class="menu-search-empty" id="menuSearchEmpty">No dishes found for "<span id="menuSearchTerm"></span>" — try another keyword.</div>
+
+          <div class="menu-category visible" data-cat="dosas">
+            <h2 class="cat-heading">Dosas</h2>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="Plain dosa" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Plain Dosa</div>
+                <div class="menu-desc">Thin, crispy, golden — a purist's choice</div>
+                <div class="menu-price">₹99</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=160&q=70" alt="Masala dosa" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Masala Dosa</div>
+                <div class="menu-desc">Crispy crepe with spiced potato filling, sambar, three chutneys</div>
+                <div class="menu-tags"><span class="tag tag-bestseller">Bestseller</span><span class="tag tag-chef">Chef Pick</span></div>
+                <div class="menu-price">₹149</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian dosa" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Paneer Dosa</div>
+                <div class="menu-desc">Crepe with spiced cottage cheese filling</div>
+                <div class="menu-tags"><span class="tag tag-chef">Chef Pick</span></div>
+                <div class="menu-price">₹179</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian dosa" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Ghee Roast Dosa</div>
+                <div class="menu-desc">Drizzled with pure cow ghee, roasted to a deep gold</div>
+                <div class="menu-price">₹169</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian dosa" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Cheese Dosa</div>
+                <div class="menu-desc">Crispy dosa with melted cheese filling</div>
+                <div class="menu-tags"><span class="tag tag-kids">Kids Friendly</span></div>
+                <div class="menu-price">₹189</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian dosa" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Mysore Masala Dosa</div>
+                <div class="menu-desc">Spicy red chutney spread inside, potato filling, crisp edge</div>
+                <div class="menu-tags"><span class="tag tag-bestseller">Spicy</span></div>
+                <div class="menu-price">₹159</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-category visible" data-cat="idli">
+            <h2 class="cat-heading">Idli &amp; Vada</h2>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=160&q=70" alt="Idli sambar" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Idli Sambhar (2 pc)</div>
+                <div class="menu-desc">Soft steamed rice cakes, hot sambhar, two chutneys</div>
+                <div class="menu-tags"><span class="tag tag-bestseller">Bestseller</span></div>
+                <div class="menu-price">₹99</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=160&q=70" alt="South Indian idli and vada" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Mini Idli (12 pc)</div>
+                <div class="menu-desc">Bite-sized idlis soaked in golden sambhar — irresistible</div>
+                <div class="menu-tags"><span class="tag tag-kids">Kids Friendly</span></div>
+                <div class="menu-price">₹149</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=160&q=70" alt="South Indian idli and vada" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Medu Vada (2 pc)</div>
+                <div class="menu-desc">Crispy lentil fritters, served hot with sambhar and chutney</div>
+                <div class="menu-price">₹109</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=160&q=70" alt="South Indian idli and vada" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Sambar Vada</div>
+                <div class="menu-desc">Medu vada dunked in hot sambhar until just soft</div>
+                <div class="menu-price">₹119</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=160&q=70" alt="South Indian idli and vada" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Rava Idli (2 pc)</div>
+                <div class="menu-desc">Semolina steamed cakes, light and fluffy with mustard tempering</div>
+                <div class="menu-tags"><span class="tag tag-chef">Chef Pick</span></div>
+                <div class="menu-price">₹109</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-category visible" data-cat="uttapam">
+            <h2 class="cat-heading">Uttapam / Tiffin</h2>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian tiffin item" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Onion Uttapam</div>
+                <div class="menu-desc">Thick rice pancake with caramelised onion and green chilli</div>
+                <div class="menu-price">₹129</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="Rava uttapam" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Rava Uttapam</div>
+                <div class="menu-desc">Semolina pancake, sizzling with toppings, served hot</div>
+                <div class="menu-tags"><span class="tag tag-chef">Chef Special</span></div>
+                <div class="menu-price">₹139</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian tiffin item" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Pongal</div>
+                <div class="menu-desc">Soft rice and moong dal, morning comfort at its finest</div>
+                <div class="menu-price">₹119</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian tiffin item" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Upma</div>
+                <div class="menu-desc">Semolina cooked with vegetables and mustard tempering</div>
+                <div class="menu-price">₹99</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=160&q=70" alt="South Indian tiffin item" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Tomato Uttapam</div>
+                <div class="menu-desc">Chunky tomato and onion topping on a spongy rice base</div>
+                <div class="menu-price">₹129</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-category visible" data-cat="accompaniments">
+            <h2 class="cat-heading">Accompaniments</h2>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Sambhar (extra)</div><div class="menu-desc">Rich lentil and vegetable broth, slow-cooked daily</div><div class="menu-price">₹29</div></div></div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Coconut Chutney</div><div class="menu-desc">Fresh-ground coconut with green chilli and curry leaf tempering</div><div class="menu-price">₹29</div></div></div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Tomato Chutney</div><div class="menu-desc">Tangy roasted tomato chutney with a hint of tamarind</div><div class="menu-price">₹29</div></div></div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Ghee (pure cow)</div><div class="menu-desc">Traditional clarified butter, poured generously</div><div class="menu-price">₹39</div></div></div>
+          </div>
+
+          <div class="menu-category visible" data-cat="beverages">
+            <h2 class="cat-heading">Beverages</h2>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1581481615985-ba4775734a9b?auto=format&fit=crop&w=160&q=70" alt="Filter coffee davara" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Filter Coffee (davara set)</div>
+                <div class="menu-desc">Traditional decoction, froth-pulled to perfection in a steel tumbler</div>
+                <div class="menu-tags"><span class="tag tag-bestseller">Bestseller</span></div>
+                <div class="menu-price">₹59</div>
+              </div>
+            </div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian beverage" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Masala Chai</div><div class="menu-desc">Ginger-cardamom brew steeped to deep warmth</div><div class="menu-price">₹49</div></div></div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian beverage" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Fresh Lime Soda</div><div class="menu-desc">Sweet or salted, served ice-cold</div><div class="menu-price">₹69</div></div></div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian beverage" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Buttermilk (Neer Mor)</div><div class="menu-desc">Spiced, light, and wonderfully refreshing</div><div class="menu-price">₹49</div></div></div>
+            <div class="menu-item"><img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80"><div class="menu-info"><div class="menu-name">Tender Coconut Water</div><div class="menu-desc">Served chilled, straight from the shell</div><div class="menu-price">₹79</div></div></div>
+          </div>
+
+          <div class="menu-category visible" data-cat="combos">
+            <h2 class="cat-heading">Combos</h2>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Family Breakfast Combo</div>
+                <div class="menu-desc">4 Idli, 2 Dosa, 4 Vada, Sambhar, 2 Chutneys, 2 Coffees</div>
+                <div class="menu-tags"><span class="tag tag-fresh">Best Value</span></div>
+                <div class="menu-price">₹399</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Solo Morning Combo</div>
+                <div class="menu-desc">2 Idli, 1 Dosa, Sambhar, Chutney, Filter Coffee</div>
+                <div class="menu-price">₹199</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?auto=format&fit=crop&w=160&q=70" alt="South Indian accompaniment" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Couple's Tiffin</div>
+                <div class="menu-desc">Masala Dosa + Idli Sambhar + 2 Filter Coffees</div>
+                <div class="menu-tags"><span class="tag tag-chef">Chef Pick</span></div>
+                <div class="menu-price">₹299</div>
+              </div>
+            </div>
+            <div class="menu-item">
+              <img class="menu-thumb" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=160&q=70" alt="South Indian idli and vada" loading="lazy" width="80" height="80">
+              <div class="menu-info">
+                <div class="menu-name">Kids Meal</div>
+                <div class="menu-desc">Mini Idli (6 pc) + Vada + Coconut Chutney + Buttermilk</div>
+                <div class="menu-tags"><span class="tag tag-kids">Kids Friendly</span></div>
+                <div class="menu-price">₹149</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+  </section>
+</div>
+<div class="page-panel" id="page-story">
+  <div class="brand-hero">
+    <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=1920&q=80" alt="South Indian kitchen with tawa" loading="lazy" width="1920" height="700">
+    <div class="brand-hero-overlay"></div>
+    <div class="brand-hero-title">A Kitchen That Time Chose Not to Forget</div>
+  </div>
+  <section class="section narrative-section">
+    <div class="section-inner">
+      <div class="narrative-inner reveal">
+        <span class="section-label">Dehradun · Since 1962</span>
+        <h2 class="section-heading" style="font-size:var(--text-display-md);margin-bottom:var(--space-xl)">It Started With A Tawa</h2>
+        <p class="narrative-para">In a two-room house in Mylapore, Chennai, Kamala Iyer woke every morning at 4am to begin grinding. Not because she had to — because that was the only way the batter came out right. Granite on granite, slow and rhythmic, until the batter was exactly the right consistency — neither too thin nor too thick, fermenting in a clay vessel by evening, ready for morning service.</p>
+        <p class="narrative-para">Her husband Rajan Iyer opened a small tiffin stall outside their home in 1962. Word spread the way it does in Chennai — quietly, through chai conversations and temple visits. Within a year, people were arriving before sunrise just to guarantee a plate.</p>
+        <p class="narrative-para">When the family relocated to Dehradun, they brought the batter formula, the tawa, and the stubbornness never to take shortcuts. Three generations later, the recipe is still not written down. It never needed to be.</p>
+      </div>
+    </div>
+  </section>
+  <div class="pull-quote-section reveal">
+    <span class="pull-quote-mark-large" aria-hidden="true">"</span>
+    <blockquote class="pull-quote">"Our batter is ground at 4am. Our recipes were never written down. That's not a flaw. That's the whole point."</blockquote>
+  </div>
+  <section class="section timeline-section">
+    <div class="section-inner">
+      <h2 class="section-heading" style="font-size:var(--text-display-md);margin-bottom:var(--space-2xl)">Our Journey</h2>
+      <div class="timeline">
+        <div class="timeline-item reveal"><div class="timeline-year">1962</div><div class="timeline-content"><p class="timeline-text">Founded in Chennai by Kamala & Rajan Iyer. A stone grinder, a tawa, and three chutneys was all it took.</p></div></div>
+        <div class="timeline-item reveal"><div class="timeline-year">1978</div><div class="timeline-content"><p class="timeline-text">The recipe book burned in a house fire. Nothing was lost — every recipe existed perfectly in memory. Still does.</p></div></div>
+        <div class="timeline-item reveal"><div class="timeline-year">1991</div><div class="timeline-content"><p class="timeline-text">First Dehradun outlet opened. The same batter formula made the journey to the foothills of the Himalayas.</p></div></div>
+        <div class="timeline-item reveal"><div class="timeline-year">2004</div><div class="timeline-content"><p class="timeline-text">Second outlet opens, serving a growing city that has discovered its love for filter coffee and stone-ground batter.</p></div></div>
+        <div class="timeline-item reveal"><div class="timeline-year">2018</div><div class="timeline-content"><p class="timeline-text">Third generation joins the kitchen. The batter is still ground the same way, at the same hour.</p></div></div>
+        <div class="timeline-item reveal"><div class="timeline-year">2024</div><div class="timeline-content"><p class="timeline-text">MANNA KITCHEN DOSA POINT becomes Dehradun's most-reviewed South Indian restaurant. The recipe remains unwritten.</p></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background:var(--color-parchment)">
+    <div class="section-inner">
+      <div style="border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--space-xl)">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80"
+             alt="Idli platter on banana leaf" loading="lazy" width="1200" height="500" style="width:100%;height:clamp(300px,40vw,500px);object-fit:cover">
+      </div>
+      <p style="text-align:center;font-family:var(--font-body);font-size:var(--text-label);letter-spacing:var(--tracking-wide);color:var(--color-stone);text-transform:uppercase;font-style:italic">Traditional idli platter, served on banana leaf · MANNA KITCHEN DOSA POINT, Dehradun</p>
+    </div>
+  </section>
+  <section class="values-section">
+    <div class="values-inner section-inner">
+      <div class="value-block reveal">
+        <div class="value-num">01</div>
+        <div class="value-title">Stone-Ground Batter</div>
+        <p class="value-text">Our batter is ground fresh every day using the same granite method Kamala Iyer used in 1962. It ferments overnight in clay vessels. You cannot replicate this with a blender. We've tried. Everyone has tried. This is the only way.</p>
+      </div>
+      <div class="value-block reveal" style="transition-delay:80ms">
+        <div class="value-num">02</div>
+        <div class="value-title">No Preservatives, Ever</div>
+        <p class="value-text">Nothing in our kitchen lasts more than a day. The chutney you eat was ground this morning. The sambhar was slow-cooked before dawn. Freshness is not a marketing claim here — it is the only way we know how to work.</p>
+      </div>
+      <div class="value-block reveal" style="transition-delay:160ms">
+        <div class="value-num">03</div>
+        <div class="value-title">Filter Coffee Culture</div>
+        <p class="value-text">True filter coffee requires a decoction slow-brewed for forty minutes, mixed with full-fat milk, and poured between a davara and tumbler until the froth is perfect. Ours is done exactly this way. All day. Every day.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ GALLERY PAGE ═══════════ -->
+<div class="page-panel" id="page-gallery">
+  <div class="brand-hero" style="height:40vh">
+    <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=1920&q=80" alt="South Indian food spread" loading="lazy" width="1920" height="600">
+    <div class="brand-hero-overlay"></div>
+    <div class="brand-hero-title">Gallery</div>
+  </div>
+  <section class="section gallery-section">
+    <div class="section-inner">
+      <div class="gallery-filters">
+        <button class="filter-pill active" onclick="filterGallery('all',this)">All</button>
+        <button class="filter-pill" onclick="filterGallery('food',this)">Food</button>
+        <button class="filter-pill" onclick="filterGallery('coffee',this)">Coffee</button>
+        <button class="filter-pill" onclick="filterGallery('interiors',this)">Interiors</button>
+        <button class="filter-pill" onclick="filterGallery('plating',this)">Plating</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="gallery-item" data-cat="food" onclick="openLightbox(0)" style="aspect-ratio:4/3">
+          <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=75" alt="Crispy masala dosa with golden edges" loading="lazy" width="600" height="450">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Masala Dosa</span></div>
+        </div>
+        <div class="gallery-item" data-cat="plating" onclick="openLightbox(1)" style="aspect-ratio:3/4">
+          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=75" alt="Idli on banana leaf with sambar" loading="lazy" width="600" height="800">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Idli on Banana Leaf</span></div>
+        </div>
+        <div class="gallery-item" data-cat="coffee" onclick="openLightbox(2)" style="aspect-ratio:1/1">
+          <img src="https://images.unsplash.com/photo-1581481615985-ba4775734a9b?auto=format&fit=crop&w=600&q=75" alt="Filter coffee pouring into davara" loading="lazy" width="600" height="600">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Filter Coffee Pour</span></div>
+        </div>
+        <div class="gallery-item" data-cat="food" onclick="openLightbox(3)" style="aspect-ratio:3/4">
+          <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=75" alt="Rava uttapam sizzling" loading="lazy" width="600" height="800">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Rava Uttapam</span></div>
+        </div>
+        <div class="gallery-item" data-cat="interiors" onclick="openLightbox(4)" style="aspect-ratio:16/9">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=75" alt="Warm restaurant interior" loading="lazy" width="600" height="338">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Our Dining Room</span></div>
+        </div>
+        <div class="gallery-item" data-cat="plating" onclick="openLightbox(5)" style="aspect-ratio:4/3">
+          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=75" alt="South Indian platter spread" loading="lazy" width="600" height="450">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Full Platter</span></div>
+        </div>
+        <div class="gallery-item" data-cat="food" onclick="openLightbox(6)" style="aspect-ratio:1/1">
+          <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=75" alt="Kitchen tawa action" loading="lazy" width="600" height="600">
+          <div class="gallery-item-overlay"><span class="gallery-caption">On the Tawa</span></div>
+        </div>
+        <div class="gallery-item" data-cat="coffee" onclick="openLightbox(7)" style="aspect-ratio:3/4">
+          <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=75" alt="South Indian breakfast scene" loading="lazy" width="600" height="800">
+          <div class="gallery-item-overlay"><span class="gallery-caption">Breakfast Ritual</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lightbox-img-wrap">
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" aria-label="Previous">‹</button>
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" aria-label="Next">›</button>
+  </div>
+</div>
+
+<!-- ═══════════ RESERVATIONS PAGE ═══════════ -->
+<div class="page-panel" id="page-reserve">
+  <div class="brand-hero" style="height:35vh">
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920&q=80" alt="Restaurant ambiance" loading="lazy" width="1920" height="500">
+    <div class="brand-hero-overlay"></div>
+    <div class="brand-hero-title">Reservations</div>
+  </div>
+  <section class="section reserve-section">
+    <div class="reserve-inner">
+      <!-- FORM -->
+      <div>
+        <span class="section-label">Book a Table</span>
+        <h2 class="section-heading" style="font-size:var(--text-display-md);margin-bottom:var(--space-xl)">Reserve Your Seat</h2>
+
+        <div id="reserveFormWrap">
+          <div class="form-group" id="fg-name">
+            <label class="form-label" for="res-name">Full Name</label>
+            <input class="form-input" type="text" id="res-name" autocomplete="name" oninput="updateFilled(this)" required aria-required="true">
+            <div class="form-underline"></div>
+          </div>
+          <div class="form-group" id="fg-phone">
+            <label class="form-label" for="res-phone">Phone Number</label>
+            <input class="form-input" type="tel" id="res-phone" autocomplete="tel" oninput="updateFilled(this)" required aria-required="true">
+            <div class="form-underline"></div>
+          </div>
+          <div class="form-group" id="fg-email">
+            <label class="form-label" for="res-email">Email Address</label>
+            <input class="form-input" type="email" id="res-email" autocomplete="email" oninput="updateFilled(this)">
+            <div class="form-underline"></div>
+          </div>
+          <div class="form-group" id="fg-date">
+            <label class="form-label" for="res-date-display">Date</label>
+            <input type="hidden" id="res-date" name="res-date" required aria-required="true">
+            <input class="form-input" type="text" id="res-date-display" placeholder="Select a date" readonly autocomplete="off" aria-haspopup="true" aria-expanded="false" aria-controls="customCalendar" style="cursor:pointer">
+            <div class="custom-calendar" id="customCalendar" role="dialog" aria-modal="true" aria-label="Date picker" style="display:none">
+              <div class="cal-header">
+                <button class="cal-nav" id="calPrev" aria-label="Previous month">&#8249;</button>
+                <span class="cal-month-year" id="calMonthYear"></span>
+                <button class="cal-nav" id="calNext" aria-label="Next month">&#8250;</button>
+              </div>
+              <div class="cal-weekdays">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="cal-days" id="calDays"></div>
+              <div class="cal-footer">
+                <button class="cal-today-btn" id="calTodayBtn">Today</button>
+                <button class="cal-close-btn" id="calCloseBtn">Close</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" id="fg-time">
+            <label class="form-label" for="res-time-display">Preferred Time</label>
+            <select id="res-time" name="res-time" required aria-required="true" style="display:none">
+              <option value="">Select time</option>
+              <option value="09:15 AM">09:15 AM</option>
+              <option value="09:30 AM">09:30 AM</option>
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="10:30 AM">10:30 AM</option>
+              <option value="11:00 AM">11:00 AM</option>
+              <option value="11:30 AM">11:30 AM</option>
+              <option value="12:00 PM">12:00 PM</option>
+              <option value="12:30 PM">12:30 PM</option>
+              <option value="01:00 PM">01:00 PM</option>
+              <option value="01:30 PM">01:30 PM</option>
+              <option value="02:00 PM">02:00 PM</option>
+              <option value="02:30 PM">02:30 PM</option>
+              <option value="03:00 PM">03:00 PM</option>
+              <option value="03:30 PM">03:30 PM</option>
+              <option value="04:00 PM">04:00 PM</option>
+              <option value="04:30 PM">04:30 PM</option>
+              <option value="05:00 PM">05:00 PM</option>
+              <option value="05:30 PM">05:30 PM</option>
+              <option value="06:00 PM">06:00 PM</option>
+              <option value="06:30 PM">06:30 PM</option>
+              <option value="07:00 PM">07:00 PM</option>
+              <option value="07:30 PM">07:30 PM</option>
+              <option value="08:00 PM">08:00 PM</option>
+              <option value="08:30 PM">08:30 PM</option>
+              <option value="09:00 PM">09:00 PM</option>
+              <option value="09:30 PM">09:30 PM</option>
+            </select>
+            <input class="form-input" type="text" id="res-time-display" placeholder="Pick a time" readonly autocomplete="off" aria-haspopup="true" aria-expanded="false" aria-controls="customClock" style="cursor:pointer">
+            <div class="custom-clock" id="customClock" role="dialog" aria-modal="true" aria-label="Time picker" style="display:none">
+              <div class="clock-header">
+                <span class="clock-title">Select Time</span>
+                <div class="clock-ampm">
+                  <button class="ampm-btn active" id="amBtn" data-period="AM">AM</button>
+                  <button class="ampm-btn" id="pmBtn" data-period="PM">PM</button>
+                </div>
+              </div>
+              <div class="clock-face-wrap">
+                <svg class="clock-face" id="clockFace" viewBox="0 0 260 260" width="260" height="260" role="img" aria-label="Clock face"></svg>
+                <div class="clock-center-display">
+                  <span class="clock-display-time" id="clockDisplayTime">--:--</span>
+                  <span class="clock-display-period" id="clockDisplayPeriod">AM</span>
+                </div>
+              </div>
+              <div class="clock-slots" id="clockSlots"></div>
+              <div class="clock-footer">
+                <button class="cal-close-btn" id="clockCloseBtn">Cancel</button>
+                <button class="cal-today-btn" id="clockConfirmBtn">Confirm</button>
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom:var(--space-lg)">
+            <div class="stepper-label">Party Size</div>
+            <div class="stepper-wrap">
+              <button class="stepper-btn" aria-label="Decrease" onclick="stepParty(-1)">−</button>
+              <span class="stepper-val" id="partyVal" aria-live="polite">2</span>
+              <button class="stepper-btn" aria-label="Increase" onclick="stepParty(1)">+</button>
+            </div>
+          </div>
+          <div class="form-group" id="fg-req">
+            <label class="form-label" for="res-req">Special Requests (optional)</label>
+            <textarea class="form-textarea" id="res-req" oninput="updateFilled(this)"></textarea>
+            <div class="form-underline"></div>
+          </div>
+          <button class="btn-submit btn-magnetic" id="resSubmitBtn" onclick="submitReservation()" type="button">
+            Confirm Reservation
+          </button>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-card">
+            <svg viewBox="0 0 52 52" aria-hidden="true" width="56" height="56">
+              <circle class="check-circle" cx="26" cy="26" r="25" fill="none" stroke="#25D366" stroke-width="2"/>
+              <path class="check-tick" fill="none" stroke="#25D366" stroke-width="2.5" stroke-linecap="round" d="M14 27l8 8 16-16"/>
+            </svg>
+            <h3 class="success-title">Table Reserved! 🎉</h3>
+            <div class="booking-summary" id="bookingSummary"></div>
+            <p class="success-note">We'll confirm via WhatsApp within 15 minutes.</p>
+            <button class="btn-primary" onclick="resetReservation()" style="margin-top:var(--space-lg)">Make Another Reservation</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="reserve-info-card">
+        <div class="reserve-info-title">Find Us</div>
+        <div class="reserve-info-img">
+          <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=70" alt="MANNA KITCHEN DOSA POINT restaurant" loading="lazy" width="600" height="340">
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">📍</span>
+          <div class="info-row-text">
+            <span class="info-row-label">Address</span>
+            Khasra No. 42, SDTC Tower, 1, Chakrata Rd, near Blood Bank, Chor Khala, Hemkunj Colony, Dehradun, Uttarakhand 248001
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">🕐</span>
+          <div class="info-row-text">
+            <span class="info-row-label">Hours</span>
+            Open everyday: 9:15 AM – 10:00 PM
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">📞</span>
+          <div class="info-row-text">
+            <span class="info-row-label">Phone</span>
+            <a href="tel:+917983646309" style="color:var(--color-stone)">+91 79836 46309</a>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">ℹ</span>
+          <div class="info-row-text">Walk-ins welcome during non-peak hours</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ CONTACT PAGE ═══════════ -->
+<div class="page-panel" id="page-contact">
+  <div class="brand-hero" style="height:35vh">
+    <img src="https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=1920&q=80" alt="MANNA KITCHEN DOSA POINT exterior" loading="lazy" width="1920" height="500">
+    <div class="brand-hero-overlay"></div>
+    <div class="brand-hero-title">Contact &amp; Location</div>
+  </div>
+  <section class="section contact-section">
+    <div class="contact-inner section-inner">
+      <div>
+        <span class="section-label">Find Us</span>
+        <h2 class="section-heading" style="font-size:var(--text-display-md);margin-bottom:var(--space-xl)">We're in Dehradun</h2>
+        <div class="contact-detail reveal">
+          <div class="contact-item">
+            <span class="contact-item-label">Address</span>
+            <span class="contact-item-val">MANNA KITCHEN DOSA POINT<br>Khasra No. 42, SDTC Tower, 1, Chakrata Rd<br>near Blood Bank, Chor Khala, Hemkunj Colony<br>Dehradun, Uttarakhand 248001</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item-label">Phone</span>
+            <span class="contact-item-val"><a href="tel:+917983646309">+91 79836 46309</a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item-label">Email</span>
+            <span class="contact-item-val"><a href="mailto:hello@mannakitchen.in">hello@mannakitchen.in</a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item-label">WhatsApp</span>
+            <span class="contact-item-val"><a href="https://wa.me/917983646309">Chat with us</a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item-label">Hours</span>
+            <span class="contact-item-val">Open everyday: 9:15 AM – 10:00 PM</span>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-xl)">
+          <span class="section-label" style="margin-bottom:var(--space-lg);display:block">Send a Message</span>
+          <form id="contact-form" novalidate onsubmit="return handleContactSubmit(event)">
+          <div class="form-group" id="cg-name">
+            <label class="form-label" for="c-name">Your Name</label>
+            <input class="form-input" type="text" id="c-name" oninput="updateFilled(this)" required aria-required="true">
+            <div class="form-underline"></div>
+          </div>
+          <div class="form-group" id="cg-email">
+            <label class="form-label" for="c-email">Email Address</label>
+            <input class="form-input" type="email" id="c-email" oninput="updateFilled(this)" required aria-required="true">
+            <div class="form-underline"></div>
+          </div>
+          <div class="form-group" id="cg-msg">
+            <label class="form-label" for="c-msg">Message</label>
+            <textarea class="form-textarea" id="c-msg" rows="4" oninput="updateFilled(this)" required aria-required="true"></textarea>
+            <div class="form-underline"></div>
+          </div>
+          <div id="contact-success" style="display:none;color:var(--color-teal-deep);font-size:var(--text-body-sm);margin-bottom:var(--space-md);font-weight:500" role="alert">✓ Message sent! We'll get back to you shortly.</div>
+          <button class="btn-submit btn-magnetic" type="submit" id="contactSubmitBtn" style="background:var(--color-teal-deep)">Send Message</button>
+          </form>
+        </div>
+      </div>
+      <div class="contact-map reveal" style="transition-delay:100ms">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3443.606054464143!2d78.0189798!3d30.3337214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39092bdb5f56d135%3A0xeb4b43d9a5e9e091!2sManna%20Kitchen%20Dosa%20Point%20Ballupur!5e0!3m2!1sen!2sin!4v1776652934821!5m2!1sen!2sin" width="600" height="450" style="border:0;filter:grayscale(40%) sepia(10%);border-radius:var(--radius-lg);width:100%;height:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="MANNA KITCHEN DOSA POINT location on Google Maps"></iframe>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo" style="font-style:normal;font-size:1.1rem;letter-spacing:0.04em;text-transform:uppercase">MANNA KITCHEN DOSA POINT</div>
+      <p class="footer-blurb">Authentic South Indian vegetarian cuisine. Stone-ground batter. Family recipes unchanged since 1962. Filter coffee all day.</p>
+      <div class="footer-socials">
+        <a href="#" class="footer-social" aria-label="Instagram">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <circle cx="12" cy="12" r="4.5"/>
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+  </svg>
+</a>
+        <a href="#" class="footer-social" aria-label="Facebook">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+  </svg>
+</a>
+        <a href="https://wa.me/917983646309" class="footer-social" aria-label="WhatsApp">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12.001 2.002C6.477 2.002 2 6.479 2 12.004c0 1.77.463 3.43 1.27 4.878L2 22l5.278-1.385A9.932 9.932 0 0012 22c5.523 0 10-4.478 10-10S17.524 2.002 12.001 2.002zm0 18.001a7.956 7.956 0 01-4.051-1.105l-.29-.172-3.132.822.836-3.054-.188-.313A7.954 7.954 0 014 12.004C4 7.582 7.579 4 12.001 4c4.42 0 7.999 3.582 7.999 8.004-.001 4.42-3.58 7.999-7.999 7.999z"/>
+  </svg>
+</a>
+      </div>
+    </div>
+    <nav aria-label="Footer navigation">
+      <div class="footer-col-heading">Pages</div>
+      <ul class="footer-links" role="list">
+        <li><a href="#home" class="footer-link" onclick="showPage('home')">Home</a></li>
+        <li><a href="#menu" class="footer-link" onclick="showPage('menu')">Menu</a></li>
+        <li><a href="#story" class="footer-link" onclick="showPage('story')">Our Story</a></li>
+        <li><a href="#gallery" class="footer-link" onclick="showPage('gallery')">Gallery</a></li>
+        <li><a href="#reserve" class="footer-link" onclick="showPage('reserve')">Reservations</a></li>
+        <li><a href="#contact" class="footer-link" onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </nav>
+    <address style="font-style:normal">
+      <div class="footer-col-heading">Visit Us</div>
+      <p class="footer-address">
+        Khasra No. 42, SDTC Tower<br>
+        1, Chakrata Rd, near Blood Bank<br>
+        Hemkunj Colony, Dehradun<br>
+        Uttarakhand 248001<br><br>
+        <a href="tel:+917983646309" class="footer-link">+91 79836 46309</a><br>
+        <a href="mailto:hello@mannakitchen.in" class="footer-link">hello@mannakitchen.in</a><br><br>
+        Open everyday: 9:15 AM – 10:00 PM
+      </p>
+    </address>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MANNA KITCHEN DOSA POINT. Pure vegetarian. All rights reserved.</span>
+    <span>Made with care in Dehradun.</span>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// PAGE SYSTEM — smooth transitions
+// ═══════════════════════════════════════════
+let currentPage = 'home';
+
+function showPage(pageId, pushState) {
+  const current = document.querySelector('.page-panel.active');
+  const target = document.getElementById('page-' + pageId);
+  if (!target || current === target) return;
+
+  // Update browser history
+  if (pushState !== false) {
+    history.pushState(null, '', '#' + pageId);
+  }
+
+  // Update nav links immediately
+  document.querySelectorAll('.nav-link').forEach(l =>
+    l.classList.toggle('active', l.dataset.page === pageId)
+  );
+  const navCta = document.getElementById('navCta');
+  if (navCta) navCta.style.display = pageId === 'home' ? 'none' : 'inline-flex';
+  currentPage = pageId;
+
+  // 1. Start fade out on the current visible page
+  if (current) current.classList.add('fade-out');
+
+  // 2. Wait for the 400ms CSS transition to finish, then swap display state
+  setTimeout(() => {
+    if (current) current.classList.remove('active', 'fade-out');
+
+    // Show target
+    target.classList.add('active');
+    window.scrollTo(0, 0);
+
+    // FIX 11: Use double rAF to trigger animation after paint
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      target.classList.add('fade-in');
+    }));
+
+    // 3. Clean up and trigger page-specific animations
+    setTimeout(() => {
+      target.classList.remove('fade-in');
+      // Re-run scroll reveals for the incoming page
+      target.querySelectorAll('.reveal').forEach(el => {
+        el.classList.remove('visible');
+        void el.offsetWidth;
+        revealObserver.observe(el);
+      });
+      target.querySelectorAll('.underline-svg').forEach(svg => {
+        svg.classList.remove('drawn');
+        void svg.offsetWidth;
+        setTimeout(() => svg.classList.add('drawn'), 300);
+      });
+      if (pageId === 'home') animateHero();
+    }, 420);
+  }, 400);
+}
+
+// Handle browser back/forward
+window.addEventListener('popstate', () => {
+  const hash = window.location.hash.replace('#', '') || 'home';
+  showPage(hash, false);
+});
+
+// ═══════════════════════════════════════════
+// MOBILE MENU
+// ═══════════════════════════════════════════
+function toggleMobile() {
+  const ov = document.getElementById('mobileOverlay');
+  const hb = document.getElementById('hamburger');
+  const open = ov.classList.toggle('open');
+  hb.classList.toggle('open', open);
+  hb.setAttribute('aria-expanded', String(open));
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeMobile() {
+  document.getElementById('mobileOverlay').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════════
+// GSAP / SCROLL
+// ═══════════════════════════════════════════
+function initGSAP() {
+  if (typeof gsap === 'undefined') { setTimeout(initGSAP, 100); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero parallax
+  if (window.innerWidth > 768) {
+    gsap.to('#heroImg img', {
+      yPercent: 25, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+  }
+
+  // Magnetic buttons
+  if (window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.btn-magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width/2) * 0.3;
+        const y = (e.clientY - r.top - r.height/2) * 0.3;
+        gsap.to(btn, { x, y, duration: 0.3, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.5)' });
+      });
+    });
+  }
+}
+
+// Hero text animation
+function animateHero() {
+  const label = document.getElementById('heroLabel');
+  const hl1 = document.getElementById('hl1');
+  const hl2 = document.getElementById('hl2');
+  const sub = document.getElementById('heroSub');
+  const ctas = document.getElementById('heroCtas');
+  if (!label) return;
+  if (typeof gsap !== 'undefined') {
+    const tl = gsap.timeline();
+    tl.to(label, { opacity: 1, duration: 0.5, ease: 'expo.out' }, 0.1)
+      .to([hl1, hl2], {
+        clipPath: 'inset(0% 0 0 0)', y: 0, opacity: 1,
+        duration: 1.1, ease: 'expo.out', stagger: 0.12
+      }, 0.3)
+      .to(sub, { opacity: 1, duration: 0.6, ease: 'expo.out' }, 1.2)
+      .to(ctas, { opacity: 1, duration: 0.5, ease: 'expo.out' }, 1.5);
+  } else {
+    [label, hl1, hl2, sub, ctas].forEach((el, i) => {
+      setTimeout(() => {
+        if (el) { el.style.opacity = '1'; el.style.clipPath = 'none'; el.style.transform = 'none'; }
+      }, i * 200);
+    });
+  }
+  document.querySelectorAll('.underline-svg').forEach(s => s.classList.add('drawn'));
+}
+
+// ═══════════════════════════════════════════
+// SCROLL REVEAL (IntersectionObserver)
+// ═══════════════════════════════════════════
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+      const svg = entry.target.querySelector('.underline-svg');
+      if (svg) setTimeout(() => svg.classList.add('drawn'), 200);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('#page-home .reveal').forEach(el => revealObserver.observe(el));
+
+// NAV scroll
+const mainNav = document.getElementById('mainNav');
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('scrolled', window.scrollY > 80);
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+
+// ═══════════════════════════════════════════
+// MENU FILTER
+// ═══════════════════════════════════════════
+function filterMenu(cat, btn) {
+  // Deactivate all sidebar pills
+  document.querySelectorAll('.menu-filters .filter-pill').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  // Explicitly show/hide each category section
+  document.querySelectorAll('.menu-category').forEach(section => {
+    if (cat === 'all' || section.dataset.cat === cat) {
+      section.style.display = 'block';
+    } else {
+      section.style.display = 'none';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════
+// GALLERY FILTER
+// ═══════════════════════════════════════════
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.gallery-filters .filter-pill').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    const show = cat === 'all' || item.dataset.cat === cat;
+    item.style.display = show ? '' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════════
+const lightboxImages = [
+  { src: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=1200&q=85', alt: 'Masala Dosa' },
+  { src: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=1200&q=85', alt: 'Idli on Banana Leaf' },
+  { src: 'https://images.unsplash.com/photo-1581481615985-ba4775734a9b?auto=format&fit=crop&w=1200&q=85', alt: 'Filter Coffee' },
+  { src: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85', alt: 'Rava Uttapam' },
+  { src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85', alt: 'Restaurant Interior' },
+  { src: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=1200&q=85', alt: 'South Indian Platter' },
+  { src: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=1200&q=85', alt: 'On the Tawa' },
+  { src: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85', alt: 'Breakfast Ritual' },
+];
+let currentLightbox = 0;
+
+function openLightbox(idx) {
+  currentLightbox = idx;
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  img.src = lightboxImages[idx].src;
+  img.alt = lightboxImages[idx].alt;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function lightboxNav(dir) {
+  currentLightbox = (currentLightbox + dir + lightboxImages.length) % lightboxImages.length;
+  const img = document.getElementById('lightboxImg');
+  img.src = lightboxImages[currentLightbox].src;
+  img.alt = lightboxImages[currentLightbox].alt;
+}
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeLightbox();
+});
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  if (e.key === 'ArrowRight') lightboxNav(1);
+});
+
+// ═══════════════════════════════════════════
+// FLOATING LABELS
+// ═══════════════════════════════════════════
+function updateFilled(el) {
+  const fg = el.closest('.form-group');
+  if (fg) fg.classList.toggle('filled', el.value.trim().length > 0 || (el.tagName === 'SELECT' && el.value));
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => updateFilled(el));
+  const dateInput = document.getElementById('res-date');
+  if (dateInput) { const t = new Date(); dateInput.min = t.toISOString().split('T')[0]; }
+});
+
+// ═══════════════════════════════════════════
+// STEPPER
+// ═══════════════════════════════════════════
+let partyCount = 2;
+function stepParty(d) {
+  partyCount = Math.max(1, Math.min(20, partyCount + d));
+  document.getElementById('partyVal').textContent = partyCount;
+}
+
+// ═══════════════════════════════════════════
+// RESERVATION SUBMIT
+// ═══════════════════════════════════════════
+function clearError(input) {
+  input.classList.remove('error');
+  const fg = input.closest('.form-group');
+  if (fg) {
+    const err = fg.querySelector('.form-error');
+    if (err) err.remove();
+  }
+}
+
+function showFieldError(inputId) {
+  const input = document.getElementById(inputId);
+  input.classList.add('error');
+  const fg = input.closest('.form-group');
+  if (fg && !fg.querySelector('.form-error')) {
+    const span = document.createElement('span');
+    span.className = 'form-error';
+    span.setAttribute('role', 'alert');
+    span.textContent = 'This field is required';
+    fg.appendChild(span);
+  }
+  input.addEventListener('input', () => clearError(input), { once: true });
+  input.addEventListener('change', () => clearError(input), { once: true });
+}
+
+function submitReservation() {
+  const name = document.getElementById('res-name').value.trim();
+  const phone = document.getElementById('res-phone').value.trim();
+  const dateRaw = document.getElementById('res-date').value;
+  const time = document.getElementById('res-time').value;
+  let hasError = false;
+  if (!name)    { showFieldError('res-name');  hasError = true; }
+  if (!phone)   { showFieldError('res-phone'); hasError = true; }
+  if (!dateRaw) { showFieldError('res-date');  hasError = true; }
+  if (!time)    { showFieldError('res-time');  hasError = true; }
+  if (hasError) return;
+
+  // Format the date nicely: "Monday, 25 August 2025"
+  const dateObj = new Date(dateRaw + 'T00:00:00');
+  const dateFormatted = dateObj.toLocaleDateString('en-IN', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+
+  const btn = document.getElementById('resSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 0.8s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Reserving…';
+  if (!document.getElementById('spin-style')) {
+    const style = document.createElement('style');
+    style.id = 'spin-style';
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+  }
+  setTimeout(() => {
+    document.getElementById('reserveFormWrap').style.display = 'none';
+
+    // FEATURE 7: Populate booking summary card
+    const summaryName  = document.getElementById('res-name')?.value || '';
+    const summaryDate  = document.getElementById('res-date')?.value || '';
+    const summaryTime  = document.getElementById('res-time')?.value || '';
+    const summaryParty = document.getElementById('partyVal')?.textContent || '';
+    const summaryReq   = document.getElementById('res-req')?.value || '';
+    const bookingSummary = document.getElementById('bookingSummary');
+    if (bookingSummary) {
+      const dateObj2 = new Date(summaryDate + 'T00:00:00');
+      const dateFmt2 = dateObj2.toLocaleDateString('en-IN', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      bookingSummary.innerHTML =
+        `<div><strong>👤 Name:</strong> ${summaryName}</div>` +
+        `<div><strong>📅 Date:</strong> ${dateFmt2}</div>` +
+        `<div><strong>⏰ Time:</strong> ${summaryTime}</div>` +
+        `<div><strong>👥 Party:</strong> ${summaryParty} ${parseInt(summaryParty)===1?'person':'people'}</div>` +
+        (summaryReq ? `<div><strong>📝 Notes:</strong> ${summaryReq}</div>` : '');
+    }
+
+    document.getElementById('formSuccess').classList.add('show');
+
+    // FEATURE 7: Enhanced confetti with brand colors
+    (function launchConfetti() {
+      const container = document.getElementById('confetti');
+      if (!container) return;
+      const colors = ['#C8922A','#AE2448','#006666','#ffffff','#00b3b3'];
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'c-piece';
+        piece.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*-60}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*1.5}s;animation-duration:${2.5+Math.random()*1.5}s;transform:rotate(${Math.random()*360}deg);width:${4+Math.random()*8}px;height:${3+Math.random()*5}px;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+        container.appendChild(piece);
+      }
+      setTimeout(() => container.innerHTML = '', 5000);
+    })();
+  }, 1400);
+}
+function resetReservation() {
+  document.getElementById('reserveFormWrap').style.display = '';
+  document.getElementById('formSuccess').classList.remove('show');
+  const btn = document.getElementById('resSubmitBtn');
+  btn.disabled = false;
+  btn.textContent = 'Confirm Reservation';
+  ['res-name','res-phone','res-email','res-date','res-time','res-req'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = ''; updateFilled(el); }
+  });
+  // Clear custom picker display inputs
+  const dateDisplay = document.getElementById('res-date-display');
+  if (dateDisplay) dateDisplay.value = '';
+  const timeDisplay = document.getElementById('res-time-display');
+  if (timeDisplay) timeDisplay.value = '';
+  // FEATURE 7: Clear party count and errors
+  document.getElementById('partyVal').textContent = '2';
+  document.querySelectorAll('#page-reserve .form-group').forEach(fg => {
+    fg.classList.remove('filled','error');
+    const err = fg.querySelector('.form-error');
+    if (err) err.remove();
+  });
+}
+
+// ═══════════════════════════════════════════
+// CONFETTI
+// ═══════════════════════════════════════════
+function spawnConfetti() {
+  const container = document.getElementById('confetti');
+  const colors = ['#0D4F4F','#1A6B6B','#B8943F','#C0623A','#F5F0E8','#C2B49A'];
+  for (let i = 0; i < 80; i++) {
+    const p = document.createElement('div');
+    p.className = 'c-piece';
+    p.style.cssText = `left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()*2}s;width:${4+Math.random()*8}px;height:${3+Math.random()*5}px;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 5000);
+  }
+}
+
+
+// ═══════════════════════════════════════════
+// DARK MODE TOGGLE (FIX 3)
+// ═══════════════════════════════════════════
+let darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+function applyDark(isDark) {
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  const icon = document.getElementById('darkIcon');
+  if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+}
+
+function toggleDark() {
+  darkMode = !darkMode;
+  applyDark(darkMode);
+}
+
+// Apply on load based on system preference
+applyDark(darkMode);
+
+// Listen for system preference changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  darkMode = e.matches;
+  applyDark(darkMode);
+});
+
+
+// ═══════════════════════════════════════════
+// CONTACT FORM SUBMIT (FIX 15)
+// ═══════════════════════════════════════════
+function handleContactSubmit(event) {
+  event.preventDefault();
+  const name = document.getElementById('c-name');
+  const email = document.getElementById('c-email');
+  const msg = document.getElementById('c-msg');
+  let hasError = false;
+
+  [name, email, msg].forEach(input => {
+    if (!input.value.trim()) {
+      input.classList.add('error');
+      const fg = input.closest('.form-group');
+      if (fg && !fg.querySelector('.form-error')) {
+        const span = document.createElement('span');
+        span.className = 'form-error';
+        span.setAttribute('role', 'alert');
+        span.textContent = 'This field is required';
+        fg.appendChild(span);
+      }
+      input.addEventListener('input', () => {
+        input.classList.remove('error');
+        const fg = input.closest('.form-group');
+        if (fg) { const e = fg.querySelector('.form-error'); if (e) e.remove(); }
+      }, { once: true });
+      hasError = true;
+    }
+  });
+
+  if (hasError) return false;
+
+  const btn = document.getElementById('contactSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  setTimeout(() => {
+    document.getElementById('contact-form').reset();
+    document.querySelectorAll('#contact-form .form-group').forEach(fg => fg.classList.remove('filled'));
+    document.getElementById('contact-success').style.display = 'block';
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
+    setTimeout(() => { document.getElementById('contact-success').style.display = 'none'; }, 6000);
+  }, 900);
+
+  return false;
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  // FIX 8: Read hash on page load
+  const initHash = window.location.hash.replace('#', '');
+  if (initHash && document.getElementById('page-' + initHash)) {
+    showPage(initHash, false);
+  } else {
+    animateHero();
+  }
+  initGSAP();
+  document.getElementById('navCta').style.display = 'none';
+  // Set today min for date
+  const d = document.getElementById('res-date');
+  if (d) d.min = new Date().toISOString().split('T')[0];
+
+  // ── FEATURE 2: Live Menu Search ──────────────────────────────────────────
+  const menuSearchInput = document.getElementById('menuSearch');
+  const menuSearchClear = document.getElementById('menuSearchClear');
+  const menuSearchEmpty = document.getElementById('menuSearchEmpty');
+  const menuSearchTerm  = document.getElementById('menuSearchTerm');
+  if (menuSearchInput) {
+    menuSearchInput.addEventListener('input', function() {
+      const query = this.value.trim().toLowerCase();
+      menuSearchClear.style.display = query ? 'block' : 'none';
+      const allItems = document.querySelectorAll('.menu-item');
+      let visibleCount = 0;
+      allItems.forEach(item => {
+        const name = item.querySelector('.menu-name')?.textContent.toLowerCase() || '';
+        const desc = item.querySelector('.menu-desc')?.textContent.toLowerCase() || '';
+        const match = !query || name.includes(query) || desc.includes(query);
+        item.classList.toggle('search-hidden', !match);
+        if (match) visibleCount++;
+      });
+      if (query) {
+        document.querySelectorAll('.menu-category').forEach(c => c.classList.add('visible'));
+      } else {
+        const activeFilter = document.querySelector('.filter-pill.active');
+        if (activeFilter) filterMenu(activeFilter.dataset.cat || 'all', activeFilter);
+      }
+      if (menuSearchEmpty) menuSearchEmpty.classList.toggle('visible', visibleCount === 0 && !!query);
+      if (menuSearchTerm)  menuSearchTerm.textContent = this.value.trim();
+    });
+    menuSearchClear.addEventListener('click', function() {
+      menuSearchInput.value = '';
+      menuSearchInput.dispatchEvent(new Event('input'));
+      menuSearchInput.focus();
+    });
+  }
+
+  // ── FEATURE 3: Animated Stats Counter ────────────────────────────────────
+  function animateStatCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => {
+      const target   = parseFloat(counter.dataset.target);
+      const suffix   = counter.dataset.suffix || '';
+      const decimals = parseInt(counter.dataset.decimals || '0');
+      const duration = 1800;
+      const start    = performance.now();
+      function update(now) {
+        const elapsed  = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease     = 1 - Math.pow(1 - progress, 3);
+        const current  = (target * ease).toFixed(decimals);
+        const formatted = parseFloat(current) >= 1000
+          ? parseFloat(current).toLocaleString('en-IN')
+          : current;
+        counter.textContent = formatted + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    });
+  }
+  const statsSection = document.querySelector('.stats-section');
+  if (statsSection) {
+    let statsCounted = false;
+    const statsObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsCounted) {
+          statsCounted = true;
+          animateStatCounters();
+          statsObserver.unobserve(statsSection);
+        }
+      });
+    }, { threshold: 0.3 });
+    statsObserver.observe(statsSection);
+  }
+
+  // ── FEATURE A: Live Open/Closed Badge ────────────────────────────────────
+  function updateOpenBadge() {
+    const badge = document.getElementById('openBadge');
+    const dot   = document.getElementById('openBadgeDot');
+    const text  = document.getElementById('openBadgeText');
+    if (!badge || !text) return;
+    const now = new Date();
+    const totalMin = now.getHours() * 60 + now.getMinutes();
+    const openMin  = 9 * 60 + 15;
+    const closeMin = 22 * 60;
+    const isOpen   = totalMin >= openMin && totalMin < closeMin;
+    badge.classList.toggle('is-open',   isOpen);
+    badge.classList.toggle('is-closed', !isOpen);
+    if (isOpen) {
+      const remaining = closeMin - totalMin;
+      if (remaining <= 30) {
+        text.textContent     = 'Closes in ' + remaining + 'm';
+        badge.style.cssText  = 'border-color:rgba(200,146,42,0.45);background:rgba(200,146,42,0.10)';
+        dot.style.cssText    = 'background:#C8922A;animation:none';
+        text.style.color     = '#C8922A';
+      } else {
+        text.textContent = 'Open Now';
+        badge.style.cssText = ''; dot.style.cssText = ''; text.style.color = '';
+      }
+    } else {
+      const minsUntilOpen = totalMin < openMin ? openMin - totalMin : (24*60 - totalMin) + openMin;
+      const h = Math.floor(minsUntilOpen/60), m = minsUntilOpen % 60;
+      text.textContent    = h > 0 ? 'Opens in ' + h + 'h ' + m + 'm' : 'Opens in ' + m + 'm';
+      badge.style.cssText = ''; dot.style.cssText = ''; text.style.color = '';
+    }
+    badge.setAttribute('aria-label', 'Restaurant is currently ' + (isOpen ? 'open' : 'closed') + '. ' + text.textContent);
+  }
+  updateOpenBadge();
+  setInterval(updateOpenBadge, 60000);
+
+  // ── FEATURE B: Custom Calendar ────────────────────────────────────────────
+  (function() {
+    const hiddenInput  = document.getElementById('res-date');
+    const displayInput = document.getElementById('res-date-display');
+    const calendar     = document.getElementById('customCalendar');
+    const calDays      = document.getElementById('calDays');
+    const calMonthYear = document.getElementById('calMonthYear');
+    const calPrev      = document.getElementById('calPrev');
+    const calNext      = document.getElementById('calNext');
+    const calTodayBtn  = document.getElementById('calTodayBtn');
+    const calCloseBtn  = document.getElementById('calCloseBtn');
+    if (!hiddenInput || !calendar) return;
+    const today = new Date(); today.setHours(0,0,0,0);
+    let viewYear     = today.getFullYear();
+    let viewMonth    = today.getMonth();
+    let selectedDate = null;
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    function renderCalendar() {
+      calMonthYear.textContent = MONTHS[viewMonth] + ' ' + viewYear;
+      calDays.innerHTML = '';
+      const firstDay    = new Date(viewYear, viewMonth, 1).getDay();
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'cal-day cal-day-empty';
+        calDays.appendChild(empty);
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cal-day';
+        btn.textContent = d;
+        const thisDate = new Date(viewYear, viewMonth, d);
+        thisDate.setHours(0,0,0,0);
+        if (thisDate < today) {
+          btn.classList.add('cal-day-disabled');
+          btn.setAttribute('aria-disabled', 'true');
+        } else {
+          if (thisDate.getTime() === today.getTime()) btn.classList.add('cal-day-today');
+          if (selectedDate && thisDate.getTime() === selectedDate.getTime()) btn.classList.add('cal-day-selected');
+          btn.addEventListener('click', () => selectDate(thisDate, d));
+        }
+        calDays.appendChild(btn);
+      }
+    }
+    function selectDate(dateObj, day) {
+      selectedDate = dateObj;
+      const yyyy = dateObj.getFullYear();
+      const mm   = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const dd   = String(day).padStart(2, '0');
+      hiddenInput.value  = yyyy + '-' + mm + '-' + dd;
+      displayInput.value = dateObj.toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'long', year:'numeric' });
+      const fg = document.getElementById('fg-date');
+      if (fg) {
+        fg.classList.add('filled');
+        const err = fg.querySelector('.form-error');
+        if (err) err.remove();
+        hiddenInput.classList.remove('error');
+      }
+      closeCalendar();
+      renderCalendar();
+    }
+    function openCalendar() {
+      calendar.style.display = 'block';
+      displayInput.setAttribute('aria-expanded', 'true');
+      calPrev.focus();
+    }
+    function closeCalendar() {
+      calendar.style.display = 'none';
+      displayInput.setAttribute('aria-expanded', 'false');
+      displayInput.focus();
+    }
+    displayInput.addEventListener('click', () => calendar.style.display === 'none' ? openCalendar() : closeCalendar());
+    displayInput.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCalendar(); } });
+    calPrev.addEventListener('click', () => { viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } renderCalendar(); });
+    calNext.addEventListener('click', () => { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } renderCalendar(); });
+    calTodayBtn.addEventListener('click', () => { viewYear = today.getFullYear(); viewMonth = today.getMonth(); renderCalendar(); });
+    calCloseBtn.addEventListener('click', closeCalendar);
+    document.addEventListener('click', e => {
+      if (calendar.style.display !== 'none' && !calendar.contains(e.target) && e.target !== displayInput) closeCalendar();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && calendar.style.display !== 'none') closeCalendar(); });
+    renderCalendar();
+  })();
+
+  // ── FEATURE C: Custom Clock ───────────────────────────────────────────────
+  (function() {
+    const hiddenSelect    = document.getElementById('res-time');
+    const displayInput    = document.getElementById('res-time-display');
+    const clock           = document.getElementById('customClock');
+    const clockSlots      = document.getElementById('clockSlots');
+    const clockFaceSvg    = document.getElementById('clockFace');
+    const clockDisplayT   = document.getElementById('clockDisplayTime');
+    const clockDisplayP   = document.getElementById('clockDisplayPeriod');
+    const amBtn           = document.getElementById('amBtn');
+    const pmBtn           = document.getElementById('pmBtn');
+    const clockCloseBtn   = document.getElementById('clockCloseBtn');
+    const clockConfirmBtn = document.getElementById('clockConfirmBtn');
+    if (!hiddenSelect || !clock) return;
+    let currentPeriod = 'AM';
+    let selectedSlot  = null;
+    let pendingValue  = null;
+    const allSlots = Array.from(hiddenSelect.options).filter(o => o.value).map(o => o.value);
+    function drawClockFace() {
+      const cx = 130, cy = 130, r = 110;
+      let svg = '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="rgba(0,0,0,0.2)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+      svg += '<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="var(--color-teal-light)"/>';
+      for (let i = 0; i < 12; i++) {
+        const angle = (i * 30 - 90) * Math.PI / 180;
+        const x1 = cx + (r - 14) * Math.cos(angle);
+        const y1 = cy + (r - 14) * Math.sin(angle);
+        const x2 = cx + (r - 4)  * Math.cos(angle);
+        const y2 = cy + (r - 4)  * Math.sin(angle);
+        const nx = cx + (r - 28) * Math.cos(angle);
+        const ny = cy + (r - 28) * Math.sin(angle);
+        const hr = i === 0 ? 12 : i;
+        svg += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round"/>';
+        svg += '<text x="' + nx.toFixed(1) + '" y="' + ny.toFixed(1) + '" text-anchor="middle" dominant-baseline="central" font-family="var(--font-body)" font-size="13" fill="rgba(255,255,255,0.5)">' + hr + '</text>';
+      }
+      const hAngle = ((9 + 15/60) / 12 * 360 - 90) * Math.PI / 180;
+      const mAngle = (15 / 60 * 360 - 90) * Math.PI / 180;
+      svg += '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + 55*Math.cos(hAngle)).toFixed(1) + '" y2="' + (cy + 55*Math.sin(hAngle)).toFixed(1) + '" stroke="var(--color-ivory)" stroke-width="3" stroke-linecap="round"/>';
+      svg += '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + 80*Math.cos(mAngle)).toFixed(1) + '" y2="' + (cy + 80*Math.sin(mAngle)).toFixed(1) + '" stroke="var(--color-teal-light)" stroke-width="2" stroke-linecap="round"/>';
+      clockFaceSvg.innerHTML = svg;
+    }
+    function renderSlots() {
+      clockSlots.innerHTML = '';
+      const filtered = allSlots.filter(s => s.endsWith(currentPeriod));
+      filtered.forEach(slot => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'clock-slot' + (slot === selectedSlot ? ' selected' : '');
+        btn.textContent = slot.replace(' AM','').replace(' PM','');
+        btn.addEventListener('click', () => {
+          selectedSlot = slot;
+          pendingValue = slot;
+          clockDisplayT.textContent = slot.replace(' AM','').replace(' PM','');
+          clockDisplayP.textContent = currentPeriod;
+          renderSlots();
+        });
+        clockSlots.appendChild(btn);
+      });
+    }
+    function openClock() {
+      clock.style.display = 'block';
+      displayInput.setAttribute('aria-expanded', 'true');
+      drawClockFace();
+      renderSlots();
+    }
+    function closeClock() {
+      clock.style.display = 'none';
+      displayInput.setAttribute('aria-expanded', 'false');
+      displayInput.focus();
+    }
+    [amBtn, pmBtn].forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentPeriod = btn.dataset.period;
+        amBtn.classList.toggle('active', currentPeriod === 'AM');
+        pmBtn.classList.toggle('active', currentPeriod === 'PM');
+        clockDisplayP.textContent = currentPeriod;
+        renderSlots();
+      });
+    });
+    clockConfirmBtn.addEventListener('click', () => {
+      if (!pendingValue) { closeClock(); return; }
+      hiddenSelect.value = pendingValue;
+      displayInput.value = pendingValue;
+      const fg = document.getElementById('fg-time');
+      if (fg) {
+        fg.classList.add('filled');
+        const err = fg.querySelector('.form-error');
+        if (err) err.remove();
+        hiddenSelect.classList.remove('error');
+      }
+      closeClock();
+    });
+    clockCloseBtn.addEventListener('click', closeClock);
+    displayInput.addEventListener('click', () => clock.style.display === 'none' ? openClock() : closeClock());
+    displayInput.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openClock(); } });
+    document.addEventListener('click', e => {
+      if (clock.style.display !== 'none' && !clock.contains(e.target) && e.target !== displayInput) closeClock();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && clock.style.display !== 'none') closeClock(); });
+  })();
+});
+</script>
+
+<!-- FEATURE 1 — WhatsApp FAB -->
+<a href="https://wa.me/917983646309?text=Hi!%20I'd%20like%20to%20place%20an%20order%20from%20Manna%20Kitchen%20%F0%9F%8D%BD%EF%B8%8F" target="_blank" rel="noopener noreferrer" class="whatsapp-fab" aria-label="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12.001 2.002C6.477 2.002 2 6.479 2 12.004c0 1.77.463 3.43 1.27 4.878L2 22l5.278-1.385A9.932 9.932 0 0012 22c5.523 0 10-4.478 10-10S17.524 2.002 12.001 2.002zm0 18.001a7.956 7.956 0 01-4.051-1.105l-.29-.172-3.132.822.836-3.054-.188-.313A7.954 7.954 0 014 12.004C4 7.582 7.579 4 12.001 4c4.42 0 7.999 3.582 7.999 8.004-.001 4.42-3.58 7.999-7.999 7.999z"/>
+  </svg>
+  <span class="whatsapp-fab-pulse"></span>
+</a>
+
+<!-- FEATURE 11 — Sticky Mobile Bottom CTA Bar -->
+<div class="mobile-bottom-bar" role="navigation" aria-label="Quick actions">
+  <button class="mobile-bottom-btn" onclick="showPage('menu')">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+      <rect x="9" y="3" width="6" height="4" rx="1" ry="1"/>
+      <path d="M9 12h6M9 16h4"/>
+    </svg>
+    <span>View Menu</span>
+  </button>
+  <div class="mobile-bottom-divider" aria-hidden="true"></div>
+  <a href="tel:+917983646309" class="mobile-bottom-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.09 12a19.8 19.8 0 01-3-8.59A2 2 0 012.11 1.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006 6l1.78-1.78a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+    </svg>
+    <span>Call Now</span>
+  </a>
+</div>
+</body>
+</html>
